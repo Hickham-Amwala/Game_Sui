@@ -1,0 +1,157 @@
+[gd_scene load_steps=28 format=3 uid="uid://bawk2gjdd4k7h"]
+
+[ext_resource type="Texture2D" uid="uid://pl2vv6l52au5" path="res://asset/Sprites/Player/Slime/stance/mini (1).png" id="1_g2els"]
+[ext_resource type="Script" uid="uid://dlyj4t4x82n4h" path="res://scripts/player.gd" id="1_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://c3kikm32mqvvd" path="res://asset/Sprites/Player/Slime/attacks/mini (2).png" id="2_4ni07"]
+[ext_resource type="Texture2D" uid="uid://d26aagcujo1b5" path="res://asset/Sprites/Player/Slime/stance/mini (2).png" id="2_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://dwqewhvrho3d5" path="res://asset/Sprites/Player/Slime/attacks/mini (3).png" id="3_l71n6"]
+[ext_resource type="Texture2D" uid="uid://cct0g1pv24pk7" path="res://asset/Sprites/Player/Slime/attacks/mini (4).png" id="4_ke2ow"]
+[ext_resource type="Texture2D" uid="uid://doiyyxbf2ppgp" path="res://asset/Sprites/Player/Slime/stance/mini (3).png" id="4_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://bil171uj66h6v" path="res://asset/Sprites/Player/Slime/stance/mini (4).png" id="5_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://bifryyr5slek2" path="res://asset/Sprites/Player/Slime/attacks/mini (5).png" id="5_ujl30"]
+[ext_resource type="Texture2D" uid="uid://cvuaregugp8qr" path="res://asset/Sprites/Player/Slime/attacks/mini (6).png" id="6_31cv2"]
+[ext_resource type="Texture2D" uid="uid://cyir8ic0d16ap" path="res://asset/Sprites/Player/Slime/attacks/mini (1).png" id="7_pf23h"]
+[ext_resource type="Texture2D" uid="uid://yqhnosve8b3y" path="res://asset/Sprites/Player/Slime/attacks/mini (8).png" id="8_dt7fs"]
+[ext_resource type="Texture2D" uid="uid://de1d45xbsdjth" path="res://asset/Sprites/Player/Slime/attacks/mini (7).png" id="9_wqfne"]
+[ext_resource type="Texture2D" uid="uid://creciajdfxfk4" path="res://asset/Sprites/Player/Slime/Damage and death/mini (2).png" id="10_wnwbv"]
+[ext_resource type="Texture2D" uid="uid://di4xybru3se57" path="res://asset/Sprites/Player/Slime/Damage and death/mini (4).png" id="11_gl8cc"]
+[ext_resource type="Texture2D" uid="uid://dt3b7st2h47jh" path="res://asset/Sprites/Player/Slime/Damage and death/mini (6).png" id="12_487ah"]
+[ext_resource type="Texture2D" uid="uid://du5ve6yimi6k0" path="res://asset/Sprites/Player/Slime/Damage and death/mini (8).png" id="13_md1ol"]
+[ext_resource type="Texture2D" uid="uid://175gjg3f8w3m" path="res://asset/Sprites/Player/Slime/Damage and death/mini (10).png" id="14_bj30b"]
+[ext_resource type="Texture2D" uid="uid://cljhqeqf3nhjk" path="res://asset/Sprites/Player/Slime/Walk (jump)/Mini (1).png" id="19_jc3p3"]
+[ext_resource type="Texture2D" uid="uid://cocuwgu0r8cjq" path="res://asset/Sprites/Player/Slime/Walk (jump)/Mini (2).png" id="20_hax0n"]
+[ext_resource type="Texture2D" uid="uid://biwirem0ajydw" path="res://asset/Sprites/Player/Slime/Walk (jump)/Mini (3).png" id="21_t4otl"]
+[ext_resource type="Texture2D" uid="uid://m4jikifd1qu0" path="res://asset/Sprites/Player/Slime/Walk (jump)/Mini (4).png" id="22_j2b1d"]
+[ext_resource type="Texture2D" uid="uid://bolwfdtaexsa7" path="res://asset/Sprites/Player/Slime/Walk (jump)/Mini (5).png" id="23_cs1tg"]
+[ext_resource type="AudioStream" uid="uid://3v0p2dro3mnw" path="res://asset/Sounds/jump.mp3" id="24_l71n6"]
+[ext_resource type="AudioStream" uid="uid://cs4d00n5l5f3e" path="res://asset/Sounds/hurt.wav" id="25_ke2ow"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4ni07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_l71n6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ke2ow")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ujl30")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_31cv2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_pf23h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_dt7fs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_wqfne")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_wnwbv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_gl8cc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_487ah")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_md1ol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_bj30b")
+}],
+"loop": false,
+"name": &"dies",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_g2els")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qhqgy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_qlg0r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tuyoq")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_jc3p3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_hax0n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_t4otl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_j2b1d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_cs1tg")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fjrip"]
+radius = 5.0990195
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 5
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_qlg0r")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_tuyoq")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_fjrip")
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("24_l71n6")
+max_distance = 4096.0
+attenuation = 0.00019830352
+bus = &"SFX"
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("25_ke2ow")
+attenuation = 1e-05
+bus = &"SFX"
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_animation_finished"]
