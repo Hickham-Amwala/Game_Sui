@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://bne1rwxgt8gi"]
+
+[ext_resource type="Script" uid="uid://c1hj3ki424e7k" path="res://scripts/key.gd" id="1_fttkb"]
+[ext_resource type="Texture2D" uid="uid://cn00u7o0icnku" path="res://asset/Sprites/Terrain/objects_/key.png" id="2_fttkb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wy8tx"]
+atlas = ExtResource("2_fttkb")
+region = Rect2(12, 307, 140, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brs3p"]
+atlas = ExtResource("2_fttkb")
+region = Rect2(152, 307, 140, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcln5"]
+atlas = ExtResource("2_fttkb")
+region = Rect2(292, 307, 140, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4qnb"]
+atlas = ExtResource("2_fttkb")
+region = Rect2(12, 37, 140, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6t41w"]
+atlas = ExtResource("2_fttkb")
+region = Rect2(152, 37, 140, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljj5h"]
+atlas = ExtResource("2_fttkb")
+region = Rect2(292, 37, 140, 180)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fttkb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy8tx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brs3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcln5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4qnb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6t41w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljj5h")
+}],
+"loop": false,
+"name": &"start",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wy8tx"]
+size = Vector2(38, 64)
+
+[node name="Key" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_fttkb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5240792, 0.5240792)
+sprite_frames = SubResource("SpriteFrames_fttkb")
+animation = &"start"
+frame = 2
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wy8tx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

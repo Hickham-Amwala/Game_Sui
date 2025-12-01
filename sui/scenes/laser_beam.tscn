@@ -1,0 +1,146 @@
+[gd_scene load_steps=20 format=3 uid="uid://cesd5ss66isnl"]
+
+[ext_resource type="Texture2D" uid="uid://pl8tsehc8xhe" path="res://asset/Sprites/Boss/BossGolem/Laser_sheet.png" id="1_5ua82"]
+[ext_resource type="Script" uid="uid://dc2hp25i4blo" path="res://scripts/laser_beam.gd" id="1_ierl2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ierl2"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 0, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icd7v"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 100, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m74rl"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 200, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3ks0"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 300, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_283s6"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 400, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjnqg"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 500, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aaqsm"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 600, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prtr0"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 700, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu7j8"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 800, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y7qgd"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 900, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvm7g"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 1000, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycm1e"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 1100, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b47ee"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 1200, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5s7l"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 1300, 300, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2b85u"]
+atlas = ExtResource("1_5ua82")
+region = Rect2(0, 1400, 300, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o3v0o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ierl2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_icd7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m74rl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3ks0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_283s6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjnqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aaqsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prtr0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lu7j8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y7qgd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvm7g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycm1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b47ee")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5s7l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2b85u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5s7l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2b85u")
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ffj4j"]
+size = Vector2(38.85537, 6.2231784)
+
+[node name="LaserBeam" type="Area2D"]
+script = ExtResource("1_ierl2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.14, 0.14)
+sprite_frames = SubResource("SpriteFrames_o3v0o")
+frame = 14
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.4999993, -2)
+scale = Vector2(0.95224935, 0.96413755)
+shape = SubResource("RectangleShape2D_ffj4j")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-24, 5)
+rect = Rect2(8, -10, 37, 6)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
