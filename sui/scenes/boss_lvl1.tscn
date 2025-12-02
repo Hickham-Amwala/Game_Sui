@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://cwo6nllexcmns"]
+[gd_scene load_steps=45 format=3 uid="uid://cwo6nllexcmns"]
 
 [ext_resource type="Script" uid="uid://c1iw177crae47" path="res://scripts/boss_lvl_1.gd" id="1_o6et2"]
 [ext_resource type="PackedScene" uid="uid://cesd5ss66isnl" path="res://scenes/laser_beam.tscn" id="2_o6et2"]
@@ -309,12 +309,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1ogx5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dt6wa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2nrwu")
 }],
 "loop": false,
 "name": &"shoot",
@@ -328,20 +322,22 @@ size = Vector2(8.000001, 7.9999986)
 radius = 33.0
 height = 202.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6et2"]
+size = Vector2(8, 14)
+
 [node name="BossLvl1" type="CharacterBody2D" groups=["enemy"]]
 z_index = -1
 collision_layer = 4
-collision_mask = 3
 script = ExtResource("1_o6et2")
 metadata/_edit_vertical_guides_ = [-31.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.16101696, 0.16101696)
 sprite_frames = SubResource("SpriteFrames_ssn7h")
-animation = &"shoot"
+animation = &"idle"
 autoplay = "idle"
-frame = 16
-frame_progress = 1.0
+frame = 7
+frame_progress = 0.48271948
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 3.1415925
@@ -358,8 +354,16 @@ shape = SubResource("CapsuleShape2D_o6et2")
 debug_color = Color(0.9654204, 5.7756904e-07, 0.48972726, 0.41960785)
 
 [node name="LaserBeam" parent="." instance=ExtResource("2_o6et2")]
-visible = false
-position = Vector2(20, 2)
+position = Vector2(8.735, 3.51)
+
+[node name="BodyHitbox" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHitbox"]
+shape = SubResource("RectangleShape2D_o6et2")
+debug_color = Color(0.65447843, 0.9406373, 0.424254, 0.41960785)
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="BodyHitbox" to="." method="_on_body_hitbox_body_entered"]
+[connection signal="body_exited" from="BodyHitbox" to="." method="_on_body_hitbox_body_exited"]

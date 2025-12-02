@@ -5,63 +5,63 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ierl2"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 0, 300, 100)
+region = Rect2(0, 0, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icd7v"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 100, 300, 100)
+region = Rect2(0, 100, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m74rl"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 200, 300, 100)
+region = Rect2(0, 200, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o3ks0"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 300, 300, 100)
+region = Rect2(0, 300, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_283s6"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 400, 300, 100)
+region = Rect2(0, 400, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rjnqg"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 500, 300, 100)
+region = Rect2(0, 500, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aaqsm"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 600, 300, 100)
+region = Rect2(0, 600, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_prtr0"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 700, 300, 100)
+region = Rect2(0, 700, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lu7j8"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 800, 300, 100)
+region = Rect2(0, 800, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y7qgd"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 900, 300, 100)
+region = Rect2(0, 900, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dvm7g"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 1000, 300, 100)
+region = Rect2(0, 1000, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ycm1e"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 1100, 300, 100)
+region = Rect2(0, 1100, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b47ee"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 1200, 300, 100)
+region = Rect2(0, 1200, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k5s7l"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 1300, 300, 100)
+region = Rect2(0, 1300, 150, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2b85u"]
 atlas = ExtResource("1_5ua82")
-region = Rect2(0, 1400, 300, 100)
+region = Rect2(0, 1400, 150, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_o3v0o"]
 animations = [{
@@ -110,12 +110,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2b85u")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k5s7l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2b85u")
 }],
 "loop": false,
 "name": &"default",
@@ -123,9 +117,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ffj4j"]
-size = Vector2(38.85537, 6.2231784)
+size = Vector2(17.327396, 3.1115894)
 
 [node name="LaserBeam" type="Area2D"]
+collision_mask = 2
 script = ExtResource("1_ierl2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -135,12 +130,12 @@ frame = 14
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.4999993, -2)
+position = Vector2(2.75, -2.5)
 scale = Vector2(0.95224935, 0.96413755)
 shape = SubResource("RectangleShape2D_ffj4j")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-24, 5)
-rect = Rect2(8, -10, 37, 6)
+position = Vector2(-13, 4)
+rect = Rect2(8, -9, 16, 5)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
