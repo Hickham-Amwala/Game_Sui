@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bidlt3mukacue"]
+[gd_scene load_steps=14 format=4 uid="uid://bh20rcjo0cgb4"]
 
 [ext_resource type="Texture2D" uid="uid://bq3agsi6gxb4g" path="res://asset/Sprites/Terrain/foreground_/foreground_.png" id="1_yse71"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="2_gm_script"]
@@ -638,6 +638,8 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ov8wl")
 sources/1 = SubResource("TileSetAtlasSource_mchxx")
 
+[sub_resource type="TileSet" id="TileSet_ov8wl"]
+
 [node name="stage2" type="Node2D"]
 
 [node name="GameManager" type="Node" parent="."]
@@ -645,10 +647,10 @@ unique_name_in_owner = true
 script = ExtResource("2_gm_script")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 104.0
-offset_bottom = 29.0
+offset_left = 2166.0
+offset_top = -154.0
+offset_right = 2265.0
+offset_bottom = -130.0
 theme_override_constants/line_spacing = 8
 theme_override_constants/paragraph_spacing = 0
 theme_override_fonts/font = ExtResource("7_font")
@@ -659,11 +661,12 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Player" parent="." instance=ExtResource("3_o1ltp")]
-position = Vector2(11, -12)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(27, 1)
 zoom = Vector2(4, 4)
+limit_bottom = 100
+limit_smoothed = true
+position_smoothing_enabled = true
 
 [node name="TileMap" type="Node2D" parent="."]
 
@@ -675,6 +678,7 @@ tile_map_data = PackedByteArray("AAD//wEAAAAAAAIAAAAAAAEAAAABAAIAAAACAAEAAAAAAAI
 tile_set = SubResource("TileSet_mchxx")
 
 [node name="BackGround" type="TileMapLayer" parent="TileMap"]
+tile_set = SubResource("TileSet_ov8wl")
 
 [node name="Coin" parent="." instance=ExtResource("6_ov8wl")]
 position = Vector2(249, -1)

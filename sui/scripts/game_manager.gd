@@ -1,32 +1,48 @@
 extends Node
 
-# 1. Tambahkan Sinyal ini
-# Ini adalah "teriakan" yang akan didengar oleh Pintu nanti
 signal level_unlocked
 
 var score = 0
-var total_coins = 0 # Variabel untuk menyimpan jumlah total koin di level
+var total_coins = 0
+# [BARU] Variabel untuk mengecek status bos
+var is_boss_dead = false 
 
 @onready var score_label: Label = $ScoreLabel
 
 func _ready():
-	# 2. Hitung jumlah koin yang ada di level secara otomatis
-	# Pastikan Anda sudah memasukkan Coin ke grup "coins"
+	# Hitung total koin
 	total_coins = get_tree().get_node_count_in_group("coins")
+	# Pastikan status bos reset saat game mulai
+	is_boss_dead = false 
 	
-	# Opsional: Update label awal
-	# score_label.text = "You get " + str(score) + " / " + str(total_coins) + " coins"
-	print("Total Koin di Level ini: ", total_coins)
+	update_ui()
+	print("Target: ", total_coins, " Koin + Kalahkan Bos")
 
 func add_point():
 	score += 1
-	
-	# Update text UI Anda (Saya pertahankan format Anda)
-	# Opsional: Anda bisa ubah jadi str(score) + "/" + str(total_coins) agar pemain tahu targetnya
-	score_label.text = "You get " + str(score) + " coins"
-	
-	# 3. CEK APAKAH SEMUA KOIN SUDAH DIAMBIL?
-	if score == total_coins:
-		print("SELAMAT! KUNCI TERBUKA!")
-		# Kirim sinyal agar Pintu terbuka
+		
+	check_level_completion()
+
+# [BARU] Fungsi ini dipanggil oleh BOS saat dia mati
+func boss_defeated():
+	print("Laporan diterima: Bos telah dikalahkan!")
+	is_boss_dead = true
+	# Cek apakah syarat menang terpenuhi
+	check_level_completion()
+
+# [BARU] Fungsi Pengecekan Utama
+func check_level_completion():
+	# Syarat: Koin Penuh DAN Bos Mati
+	if score == total_coins and is_boss_dead:
+		print("SYARAT LENGKAP! KUNCI MUNCUL!")
 		level_unlocked.emit()
+	else:
+		# Opsional: Beri info ke player apa yang kurang
+		if score < total_coins:
+			print("Belum bisa, koin kurang!")
+		if not is_boss_dead:
+			print("Belum bisa, bos masih hidup!")
+
+func update_ui():
+	if score_label:
+		score_label.text = "Coins: " + str(score) + " / " + str(total_coins)

@@ -4,6 +4,8 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var body_collision: CollisionShape2D = $CollisionShape2D
 @onready var laser_beam: Area2D = $LaserBeam 
+@onready var game_manager = %GameManager
+@onready var health_bar: ProgressBar = $ProgressBar
 
 # --- STATE MACHINE ---
 enum {
@@ -17,7 +19,7 @@ enum {
 var current_state = IDLE
 
 # --- VARIABEL STATUS ---
-var hp = 30
+var hp = 10 
 var speed = 60
 var attack_range = 250 
 var player_ref = null
@@ -34,6 +36,12 @@ func _ready():
 		animated_sprite.animation_finished.connect(_on_animation_finished)
 	
 	animated_sprite.play("idle")
+	
+	if health_bar:
+		# Set nilai maksimal bar sama dengan HP awal bos
+		health_bar.max_value = hp
+		# Set nilai bar saat ini ke HP penuh
+		health_bar.value = hp
 	
 	# Pastikan laser mati di awal
 	if laser_beam:
@@ -191,6 +199,14 @@ func take_damage(amount):
 	hp -= amount
 	print("Bos HP: ", hp)
 	
+	if health_bar:
+		# Kita pakai Tween agar barnya turun dengan halus (animasi)
+		var bar_tween = create_tween()
+		bar_tween.tween_property(health_bar, "value", hp, 0.2).set_trans(Tween.TRANS_SINE)
+		# Jika tidak mau pakai animasi halus, cukup pakai: health_bar.value = hp
+		
+	print("Bos HP: ", hp)
+	
 	modulate = Color.RED
 	var tween = create_tween()
 	tween.tween_property(self, "modulate", Color.WHITE, 0.1)
@@ -210,6 +226,16 @@ func die():
 	print("Bos Kalah!")
 	current_state = DEAD
 	
+	if game_manager:
+		game_manager.boss_defeated()
+	else:
+		print("Error: Bos tidak bisa menemukan GameManager!")
+
+	current_state = DEAD
+	
+	if health_bar:
+		health_bar.hide()
+		
 	if laser_beam.has_method("stop_firing"):
 		laser_beam.stop_firing()
 	

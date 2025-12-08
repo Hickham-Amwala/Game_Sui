@@ -1,6 +1,6 @@
 [gd_scene load_steps=54 format=4 uid="uid://bfjtw0vixqhqq"]
 
-[ext_resource type="Script" uid="uid://wnxwcou0bcmq" path="res://scripts/stage_1.gd" id="1_212wl"]
+[ext_resource type="Script" uid="uid://wnxwcou0bcmq" path="res://scripts/stage_1.gd" id="1_g4b0s"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://bawk2gjdd4k7h" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://c86g506eeimyo" path="res://asset/Sprites/Terrain/midground_/world_tileset.png" id="1_yqjtg"]
@@ -1356,13 +1356,14 @@ _data = {
 }
 
 [node name="Stage1" type="Node2D"]
-script = ExtResource("1_212wl")
+script = ExtResource("1_g4b0s")
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_gee14")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
+visible = false
 offset_left = 2199.0
 offset_top = -209.0
 offset_right = 2298.0
@@ -1377,7 +1378,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Player" parent="." instance=ExtResource("1_uwrxv")]
-position = Vector2(2207, -154)
+position = Vector2(-10, -10)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -1595,7 +1596,6 @@ position = Vector2(2450, -177)
 scale = Vector2(6.3451753, 6.3451753)
 
 [node name="FadeTransition" parent="." instance=ExtResource("12_310cc")]
-visible = false
 z_index = 6
 offset_left = -419.0
 offset_top = -283.0
@@ -1611,6 +1611,5 @@ attenuation = 1e-05
 bus = &"Music"
 
 [node name="Key" parent="." instance=ExtResource("18_pog00")]
-position = Vector2(2499, -155)
-scale = Vector2(0.13667025, 0.13667025)
-next_level_path = "uid://bidlt3mukacue"
+position = Vector2(2497, -158)
+scale = Vector2(0.29670718, 0.29670718)

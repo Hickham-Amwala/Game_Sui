@@ -17,20 +17,24 @@ var is_dead: bool = false
 @onready var jump_buffer_timer: Timer = $JumpBufferTimer
 @onready var hitbox_collision: CollisionShape2D = $Hitbox/CollisionShape2D 
 
+# --- REFERENSI UI (PLAN B) ---
+@onready var coin_label: Label = $CanvasLayer/CoinLabel
+@onready var life_label: Label = $CanvasLayer/LifeLabel
+# Ambil referensi GameManager (Pastikan GameManager punya Unique Name %GameManager)
+@onready var game_manager = %GameManager
+
 
 func _physics_process(delta: float) -> void:
+	# --- [BARU] UPDATE UI SETIAP FRAME ---
+	update_ui()
+
 	# 1. Terapkan Gravitasi
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# --- [UBAHAN 1] LOGIKA SERANGAN ---
-	# Kita HAPUS 'is_on_floor()' agar bisa nyerang sambil loncat
+	# --- LOGIKA SERANGAN ---
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		attack()
-
-	# --- [UBAHAN 2] KITA HAPUS BLOKIR GERAKAN ---
-	# Dulu di sini ada 'if is_attacking: return'. 
-	# Sekarang kita HAPUS supaya player tetap bisa jalan/loncat saat duri keluar.
 
 	# 2. Tangkap INPUT Lompat (Buffer)
 	if Input.is_action_just_pressed("jump"):
@@ -53,9 +57,7 @@ func _physics_process(delta: float) -> void:
 	elif direction < 0:
 		animated_sprite.flip_h = true
 
-	# --- [UBAHAN 3] ANIMASI ---
-	# Kita hanya boleh ganti animasi jalan/idle JIKA TIDAK SEDANG MENYERANG.
-	# Kalau sedang menyerang, biarkan animasi 'attack' yang main.
+	# --- ANIMASI ---
 	if not is_attacking:
 		if is_on_floor():
 			if direction == 0:
@@ -74,6 +76,17 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
+# --- [BARU] FUNGSI UPDATE UI ---
+func update_ui():
+	# Update Text Nyawa (Ambil dari Script Global)
+	if life_label:
+		life_label.text = "Lives: " + str(Global.lives)
+	
+	# Update Text Koin (Ambil dari GameManager)
+	if coin_label and game_manager:
+		coin_label.text = "Coins: " + str(game_manager.score) + " / " + str(game_manager.total_coins)
+
+
 # --- FUNGSI SERANGAN ---
 func attack():
 	is_attacking = true
@@ -87,26 +100,47 @@ func die():
 		return
 	is_dead = true
 	player_died.emit()
-	set_physics_process(false) 
+	
+	set_physics_process(false)
 	death_sound.play()
-	animated_sprite.play("dies") 
+	animated_sprite.play("dies")
 	$CollisionShape2D.set_deferred("disabled", true)
 	Engine.time_scale = 0.5
 
 
 # --- PENGENDALI ANIMASI SELESAI ---
 func _on_animated_sprite_animation_finished():
+	# --- LOGIKA KEMATIAN DENGAN NYAWA ---
 	if animated_sprite.animation == "dies":
-		Engine.time_scale = 1.0
-		get_tree().reload_current_scene()
 		
-	# Saat animasi attack selesai, matikan mode attack
+		# 1. Kurangi nyawa di Global script
+		var sisa_nyawa = Global.decrease_life()
+		
+		# 2. Cek sisa nyawa
+		if sisa_nyawa > 0:
+			# Jika masih punya nyawa -> Ulangi Level
+			print("Mati! Sisa nyawa: ", sisa_nyawa)
+			Engine.time_scale = 1.0
+			get_tree().reload_current_scene()
+			
+		else:
+			# Jika nyawa habis -> GAME OVER (Kembali ke Main Menu)
+			print("GAME OVER! Tidak ada nyawa tersisa.")
+			Engine.time_scale = 1.0
+			
+			# Reset nyawa jadi penuh lagi untuk permainan berikutnya
+			Global.reset_lives()
+			
+			# Ganti scene ke Main Menu
+			get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+		
+	# --- LOGIKA SERANGAN (TETAP SAMA) ---
 	elif animated_sprite.animation == "attack":
-		is_attacking = false 
+		is_attacking = false
 		hitbox_collision.set_deferred("disabled", true)
-		# Tidak perlu panggil .play("idle") disini, karena _physics_process akan menanganinya
 
 
+# --- SINYAL SERANGAN KENA MUSUH ---
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		if body.has_method("take_damage"):
