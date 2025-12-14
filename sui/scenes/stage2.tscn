@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bidlt3mukacue"]
+[gd_scene load_steps=17 format=4 uid="uid://crtt6hbrpaifi"]
 
 [ext_resource type="Texture2D" uid="uid://bq3agsi6gxb4g" path="res://asset/Sprites/Terrain/foreground_/foreground_.png" id="1_yse71"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="2_gm_script"]
