@@ -18,6 +18,12 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://scripts/Global.gd"
+MusicController="*res://scenes/music_controller.tscn"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [input]
 

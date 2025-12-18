@@ -6,6 +6,7 @@ extends Node2D
 
 func _ready() -> void:
 	$FadeTransition/AnimationPlayer.play("Fade_Out")
+	MusicController.stop_music()
 	player.player_died.connect(_on_player_died)
 	var tween = create_tween()
 	tween.tween_property(music_1, "volume_db", 0.0, 2.0)

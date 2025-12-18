@@ -18,8 +18,8 @@ var is_dead: bool = false
 @onready var hitbox_collision: CollisionShape2D = $Hitbox/CollisionShape2D 
 
 # --- REFERENSI UI (PLAN B) ---
-@onready var coin_label: Label = $CanvasLayer/CoinLabel
-@onready var life_label: Label = $CanvasLayer/LifeLabel
+@onready var coin_label: Label = $CanvasLayer/CoinContainer/CoinLabel
+@onready var life_label: Label = $CanvasLayer/LifeContainer/LifeLabel
 # Ambil referensi GameManager (Pastikan GameManager punya Unique Name %GameManager)
 @onready var game_manager = %GameManager
 
@@ -80,11 +80,13 @@ func _physics_process(delta: float) -> void:
 func update_ui():
 	# Update Text Nyawa (Ambil dari Script Global)
 	if life_label:
-		life_label.text = "Lives: " + str(Global.lives)
+		# Kita ganti "Lives: " menjadi "x " karena sudah ada icon muka slime
+		life_label.text = "x " + str(Global.lives)
 	
-	# Update Text Koin (Ambil dari GameManager)
+	# Update Text Koin
 	if coin_label and game_manager:
-		coin_label.text = "Coins: " + str(game_manager.score) + " / " + str(game_manager.total_coins)
+		# Kita ganti "Coins: " menjadi "x " karena sudah ada icon koin
+		coin_label.text = "x " + str(game_manager.score) + " / " + str(game_manager.total_coins)
 
 
 # --- FUNGSI SERANGAN ---

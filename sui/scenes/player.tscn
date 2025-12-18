@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bawk2gjdd4k7h"]
+[gd_scene load_steps=34 format=3 uid="uid://bawk2gjdd4k7h"]
 
 [ext_resource type="Texture2D" uid="uid://pl2vv6l52au5" path="res://asset/Sprites/Player/Slime/stance/mini (1).png" id="1_g2els"]
 [ext_resource type="Script" uid="uid://dlyj4t4x82n4h" path="res://scripts/player.gd" id="1_qlg0r"]
@@ -25,7 +25,9 @@
 [ext_resource type="Texture2D" uid="uid://bolwfdtaexsa7" path="res://asset/Sprites/Player/Slime/Walk (jump)/Mini (5).png" id="23_cs1tg"]
 [ext_resource type="AudioStream" uid="uid://3v0p2dro3mnw" path="res://asset/Sounds/jump.mp3" id="24_l71n6"]
 [ext_resource type="AudioStream" uid="uid://cs4d00n5l5f3e" path="res://asset/Sounds/hurt.wav" id="25_ke2ow"]
+[ext_resource type="Texture2D" uid="uid://1y1esbs4502c" path="res://asset/Sprites/Terrain/objects_/coin_aja.png" id="26_31cv2"]
 [ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="26_ujl30"]
+[ext_resource type="PackedScene" uid="uid://cn206hgrtfuh2" path="res://scenes/pause_menu.tscn" id="28_pf23h"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
 animations = [{
@@ -128,13 +130,9 @@ radius = 5.0990195
 radius = 8.0
 height = 28.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_31cv2"]
-font = ExtResource("26_ujl30")
-font_size = 32
-
 [sub_resource type="LabelSettings" id="LabelSettings_pf23h"]
-font = ExtResource("26_ujl30")
-font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_dt7fs"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 5
@@ -178,25 +176,47 @@ debug_color = Color(0.80774677, 0.31907675, 0.6774811, 0.41960785)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="CoinLabel" type="Label" parent="CanvasLayer"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 372.0
-offset_bottom = 52.0
-scale = Vector2(0.73391426, 0.73391426)
-text = "Coins: 0/10"
-label_settings = SubResource("LabelSettings_31cv2")
-metadata/_edit_use_anchors_ = true
+[node name="CoinContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 12.0
+offset_top = 64.0
+offset_right = 254.0
+offset_bottom = 104.0
+alignment = 1
 
-[node name="LifeLabel" type="Label" parent="CanvasLayer"]
-offset_left = 20.000061
-offset_top = 57.0
-offset_right = 276.0001
-offset_bottom = 102.0
-scale = Vector2(0.73391426, 0.73391426)
-text = "Lives: 3"
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/CoinContainer"]
+layout_mode = 2
+texture = ExtResource("26_31cv2")
+expand_mode = 2
+
+[node name="CoinLabel" type="Label" parent="CanvasLayer/CoinContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("26_ujl30")
+theme_override_font_sizes/font_size = 32
+text = "0"
 label_settings = SubResource("LabelSettings_pf23h")
-metadata/_edit_use_anchors_ = true
+
+[node name="LifeContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = -12.0
+offset_top = 12.0
+offset_right = 230.0
+offset_bottom = 52.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/LifeContainer"]
+layout_mode = 2
+texture = ExtResource("1_g2els")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="LifeLabel" type="Label" parent="CanvasLayer/LifeContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("26_ujl30")
+theme_override_font_sizes/font_size = 32
+text = "0"
+label_settings = SubResource("LabelSettings_dt7fs")
+
+[node name="PauseMenu" parent="." instance=ExtResource("28_pf23h")]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_animation_finished"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

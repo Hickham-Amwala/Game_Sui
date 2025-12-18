@@ -732,6 +732,7 @@ unique_name_in_owner = true
 script = ExtResource("2_gm_script")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
+visible = false
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 104.0

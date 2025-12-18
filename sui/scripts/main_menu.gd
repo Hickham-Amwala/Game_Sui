@@ -1,26 +1,32 @@
 extends Control
 
-# --- Referensi Node (Lebih Rapi) ---
-# Menggunakan @export untuk array, sisanya @onready
+# --- Referensi Node ---
+# Pastikan di Inspector kamu sudah memasukkan tombol-tombol ke dalam Array ini
 @export var menu_buttons: Array[Button]
-@onready var musik: AudioStreamPlayer2D = %musik
+
+# Pastikan jalur ini benar sesuai Scene Tree kamu
 @onready var fade_transition: Control = $FadeTransition
 @onready var animation_player: AnimationPlayer = $FadeTransition/AnimationPlayer
 
 # --- Variabel State ---
 var current_index: int = 0
-var button_type: String = "" # Tipe tombol yang ditekan
-
+var button_type: String = "" # Menyimpan tombol apa yang ditekan
 
 func _ready():
+	# 1. Setup Awal
 	update_button_visibility()
+	MusicController.play_music() # Pastikan musik nyala
 	
-	# PENTING: Kita hubungkan sinyal 'animation_finished' dari AnimationPlayer
-	# ke fungsi kita. Ini menggantikan logika Timer Anda yang lama.
-	animation_player.animation_finished.connect(_on_animation_finished)
+	# 2. Hubungkan Sinyal Animasi (Cukup sekali saja)
+	if not animation_player.animation_finished.is_connected(_on_animation_finished):
+		animation_player.animation_finished.connect(_on_animation_finished)
+		
+	# 3. Mainkan Transisi Masuk (Layar Hitam -> Bening)
+	fade_transition.show()
+	animation_player.play_backwards("Fade_In")
 
-# --- Logika Tampilan Tombol ---
-# Fungsi ini sudah bagus, tidak perlu diubah
+
+# --- Logika Tampilan Tombol (Carousel) ---
 func update_button_visibility():
 	for i in range(menu_buttons.size()):
 		if i == current_index:
@@ -28,69 +34,56 @@ func update_button_visibility():
 		else:
 			menu_buttons[i].hide()
 
-# --- Logika Carousel (Dirapikan) ---
-# Menggunakan modulo (%) agar lebih ringkas dan elegan
 func _on_right_arrow_pressed():
 	current_index = (current_index + 1) % menu_buttons.size()
 	update_button_visibility()
 
 func _on_left_arrow_pressed():
-	# Modulo untuk angka negatif perlu trik kecil ini agar aman
+	# Rumus modulo untuk mundur (handling angka negatif)
 	current_index = (current_index - 1 + menu_buttons.size()) % menu_buttons.size()
 	update_button_visibility()
 
 
-# --- Logika Tombol Aksi (Dirapikan) ---
+# --- Logika Tombol Aksi ---
 
-# Fungsi terpusat untuk memulai transisi
+# Fungsi pusat untuk memulai transisi keluar
 func _start_transition(type: String):
-	# Hanya jalankan jika kita tidak sedang dalam transisi
-	if not button_type == "":
+	# Cegah tombol ditekan dua kali saat transisi sedang berjalan
+	if button_type != "":
 		return
 	
 	button_type = type
 	
-	# 1. Mulai fade out musik DULU (seperti obrolan kita)
-	var tween = create_tween()
-	tween.tween_property(musik, "volume_db", -80.0, 1.0) # Fade out selama 1 detik
-	tween.finished.connect(_on_music_fade_out_finished)
+	# Mulai animasi menghitam (Fade Out Visual)
+	fade_transition.show()
+	animation_player.play("Fade_In")
 
 func _on_start_button_pressed():
 	_start_transition("start")
 
 func _on_option_button_pressed():
+	# HAPUS baris change_scene di sini agar animasi sempat jalan!
 	_start_transition("option")
 
 func _on_credit_button_pressed():
-	_start_transition("credit")
+	# Jika belum ada scene credit, biarkan kosong atau print dulu
+	print("Credit ditekan")
+	# _start_transition("credit") 
 
 func _on_quit_button_pressed():
-	# Di sini juga bisa ditambahkan fade out musik/visual jika mau
 	get_tree().quit()
 
 
-# --- Logika Transisi Scene (Dirapikan) ---
-
-# Fungsi ini berjalan SETELAH musik selesai fade out
-func _on_music_fade_out_finished():
-	# 2. SETELAH musik senyap, BARU mainkan animasi fade visual
-	fade_transition.show()
-	animation_player.play("Fade_In")
-
-# Fungsi ini berjalan SETELAH animasi visual "Fade_In" selesai
-# (Terkoneksi di func _ready())
+# --- Logika Setelah Animasi Selesai ---
+# Fungsi ini otomatis dipanggil saat AnimationPlayer selesai main
 func _on_animation_finished(anim_name):
-	# Pastikan ini adalah animasi yang benar-benar kita tunggu
 	if anim_name == "Fade_In":
-		
-		# 3. SETELAH layar hitam, BARU ganti scene
+		# Cek tombol apa yang tadi ditekan, lalu pindah scene
 		if button_type == "start":
 			get_tree().change_scene_to_file("res://scenes/stage1.tscn")
-		elif button_type == "option":
-			prints("option opened")
-			# TODO: Mungkin ganti ke scene "options" di sini?
-			# get_tree().change_scene_to_file("res://scenes/options_menu.tscn")
 			
-			# Untuk saat ini, kita sembunyikan lagi fade-nya agar tidak "stuck"
-			animation_player.play_backwards("Fade_In")
-			button_type = ""
+		elif button_type == "option":
+			get_tree().change_scene_to_file("res://scenes/options_menu.tscn")
+		
+		# Reset button_type (opsional, untuk keamanan)
+		# button_type = ""

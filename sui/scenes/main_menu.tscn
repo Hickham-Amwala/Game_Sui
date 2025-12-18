@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bjc8krr5q3x24"]
+[gd_scene load_steps=11 format=3 uid="uid://bjc8krr5q3x24"]
 
 [ext_resource type="Texture2D" uid="uid://cay5qab3unigo" path="res://asset/MainMenu/Background.png" id="1_ekxnf"]
 [ext_resource type="Script" uid="uid://bmy6gvtxmu0dd" path="res://scripts/main_menu.gd" id="1_l6cm7"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://bt3bqfpfxiei8" path="res://asset/MainMenu/BtnArrowHover.png" id="4_8ln24"]
 [ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="4_wu84c"]
 [ext_resource type="PackedScene" uid="uid://dry5hylvuosuf" path="res://scenes/fade_transition.tscn" id="6_rtw2f"]
-[ext_resource type="AudioStream" uid="uid://cg76jctuu0c4k" path="res://asset/Music/stage 2.mp3" id="7_oa1go"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ekxnf"]
 texture = ExtResource("1_ekxnf")
@@ -181,14 +180,7 @@ flip_h = true
 [node name="FadeTransition" parent="." instance=ExtResource("6_rtw2f")]
 visible = false
 layout_mode = 1
-
-[node name="musik" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("7_oa1go")
-autoplay = true
-max_distance = 4096.0
-attenuation = 1e-05
-bus = &"Music"
+mouse_filter = 2
 
 [connection signal="pressed" from="HBoxContainer/LeftArrow" to="." method="_on_left_arrow_pressed"]
 [connection signal="pressed" from="HBoxContainer/ButtonContainer/Start" to="." method="_on_start_button_pressed"]
