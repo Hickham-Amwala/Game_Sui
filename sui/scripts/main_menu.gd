@@ -80,7 +80,7 @@ func _on_animation_finished(anim_name):
 	if anim_name == "Fade_In":
 		# Cek tombol apa yang tadi ditekan, lalu pindah scene
 		if button_type == "start":
-			get_tree().change_scene_to_file("res://scenes/stage1.tscn")
+			get_tree().change_scene_to_file("res://scenes/prologue.tscn")
 			
 		elif button_type == "option":
 			get_tree().change_scene_to_file("res://scenes/options_menu.tscn")

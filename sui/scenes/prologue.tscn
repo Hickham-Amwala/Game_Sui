@@ -1,0 +1,94 @@
+[gd_scene load_steps=7 format=3 uid="uid://c66eh4quy5f83"]
+
+[ext_resource type="Script" uid="uid://u8sfdt5wtoxe" path="res://scripts/prologue.gd" id="1_x1kem"]
+[ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="2_8byya"]
+[ext_resource type="VideoStream" uid="uid://bp3i6i4r2u3xx" path="res://asset/Prologue/goo&grow_prologgg.ogv" id="2_x1kem"]
+
+[sub_resource type="Animation" id="Animation_1wrf5"]
+resource_name = "blink"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SkipLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6e114"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SkipLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f8hlv"]
+_data = {
+&"RESET": SubResource("Animation_6e114"),
+&"blink": SubResource("Animation_1wrf5")
+}
+
+[node name="Prologue" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x1kem")
+
+[node name="SkipLabel" type="Label" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 527.0
+offset_top = 595.0
+offset_right = 1135.0
+offset_bottom = 627.0
+theme_override_fonts/font = ExtResource("2_8byya")
+theme_override_font_sizes/font_size = 32
+text = "Press Space to Skip"
+horizontal_alignment = 1
+
+[node name="ShowTextTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f8hlv")
+}
+autoplay = "blink"
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_x1kem")
+autoplay = true
+expand = true
+
+[connection signal="timeout" from="ShowTextTimer" to="." method="_on_show_text_timer_timeout"]
+[connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]
