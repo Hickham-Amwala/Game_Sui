@@ -35,7 +35,7 @@ func boss_defeated():
 
 func check_level_completion():
 	# Cek syarat: Koin Penuh, Boss Mati, DAN level belum selesai sebelumnya
-	if score >= 0 and is_boss_dead and not level_finished:
+	if score >= total_coins and is_boss_dead and not level_finished:
 		
 		# 1. Kunci status level biar tidak terpanggil lagi
 		level_finished = true

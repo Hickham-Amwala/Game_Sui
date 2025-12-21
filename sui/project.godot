@@ -11,9 +11,12 @@ config_version=5
 [application]
 
 config/name="Sui"
-run/main_scene="uid://bjc8krr5q3x24"
+run/main_scene="uid://bp7n8hf4igsql"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+config/icon="uid://6dka65i8vf55"
 
 [autoload]
 

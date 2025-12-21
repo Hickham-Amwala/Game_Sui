@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=4 uid="uid://d3p6ngtywmp4y"]
+[gd_scene load_steps=53 format=4 uid="uid://d3p6ngtywmp4y"]
 
 [ext_resource type="Script" uid="uid://jei1gyknb32b" path="res://scripts/stage_2.gd" id="1_ic6gb"]
 [ext_resource type="Texture2D" uid="uid://bq3agsi6gxb4g" path="res://asset/Sprites/Terrain/foreground_/foreground_.png" id="1_yse71"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://c4gjyw0iwwq5p" path="res://scenes/boss_lvl2.tscn" id="13_234nn"]
 [ext_resource type="PackedScene" uid="uid://bne1rwxgt8gi" path="res://scenes/key.tscn" id="15_lo6ek"]
 [ext_resource type="AudioStream" uid="uid://chnfcptagf0d7" path="res://asset/Music/stage 3.mp3" id="16_w5a8x"]
+[ext_resource type="PackedScene" uid="uid://dry5hylvuosuf" path="res://scenes/fade_transition.tscn" id="18_ecj4f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lug6x"]
 texture = ExtResource("1_yse71")
@@ -1362,7 +1363,7 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_o1ltp")]
-position = Vector2(2283, -87)
+position = Vector2(2, 8)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -1511,7 +1512,13 @@ scale = Vector2(0.7437973, 0.7437973)
 [node name="Key" parent="." instance=ExtResource("15_lo6ek")]
 position = Vector2(2685, -82)
 scale = Vector2(0.5631628, 0.5631628)
-next_level_path = "uid://bjc8krr5q3x24"
+
+[node name="FadeTransition" parent="." instance=ExtResource("18_ecj4f")]
+z_index = 6
+offset_left = -3288.0
+offset_top = -1586.0
+offset_right = 3217.0
+offset_bottom = 1668.0
 
 [node name="music2" type="AudioStreamPlayer" parent="."]
 process_mode = 3

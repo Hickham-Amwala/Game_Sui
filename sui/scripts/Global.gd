@@ -4,7 +4,7 @@ extends Node
 var lives = 3 
 var max_lives = 3
 
-var has_laser_ability = true
+var has_laser_ability = false
 var has_ice_ability = false
 
 # --- DATA SKOR ---

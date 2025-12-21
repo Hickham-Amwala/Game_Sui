@@ -66,9 +66,7 @@ func _on_option_button_pressed():
 	_start_transition("option")
 
 func _on_credit_button_pressed():
-	# Jika belum ada scene credit, biarkan kosong atau print dulu
-	print("Credit ditekan")
-	# _start_transition("credit") 
+	_start_transition("credit") 
 
 func _on_quit_button_pressed():
 	get_tree().quit()
@@ -85,5 +83,7 @@ func _on_animation_finished(anim_name):
 		elif button_type == "option":
 			get_tree().change_scene_to_file("res://scenes/options_menu.tscn")
 		
+		elif button_type == "credit":
+			get_tree().change_scene_to_file("res://scenes/credits.tscn")
 		# Reset button_type (opsional, untuk keamanan)
 		# button_type = ""

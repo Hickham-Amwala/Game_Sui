@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://u8sfdt5wtoxe" path="res://scripts/prologue.gd" id="1_x1kem"]
 [ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="2_8byya"]
-[ext_resource type="VideoStream" uid="uid://bp3i6i4r2u3xx" path="res://asset/Prologue dan Epilogue/goo&grow_prologgg.ogv" id="2_x1kem"]
+[ext_resource type="VideoStream" uid="uid://bp3i6i4r2u3xx" path="res://asset/videoo ogg/goo&grow_prologgg.ogv" id="2_x1kem"]
 
 [sub_resource type="Animation" id="Animation_6e114"]
 length = 0.001

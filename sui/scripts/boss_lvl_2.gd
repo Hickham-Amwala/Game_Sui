@@ -12,7 +12,7 @@ extends CharacterBody2D
 const DROP_ITEM_SCENE = preload("res://scenes/ability_pickup2.tscn")
 
 # --- SETTING BOSS ---
-var hp = 1
+var hp = 35
 var speed = 50
 var attack_range = 60 
 var damage = 1
