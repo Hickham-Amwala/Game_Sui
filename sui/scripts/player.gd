@@ -5,13 +5,22 @@ signal player_died
 const SPEED = 70
 const JUMP_VELOCITY = -300.0
 
+# --- [BARU] PRELOAD SCENE PELURU ES ---
+const ICE_SCENE = preload("res://scenes/ice_projectile.tscn")
+# --------------------------------------
+
 var is_attacking: bool = false
 var is_dead: bool = false
 var is_casting_laser: bool = false 
 
+# --- [BARU] VARIABEL COOLDOWN ES ---
+var can_fire_ice = true
+var ice_cooldown_time = 1 # Jeda tembak 0.5 detik
+# -----------------------------------
+var is_casting_ice: bool = false # Penanda sedang charge es
 # --- VARIABEL UNTUK MEREKAM POSISI & SKALA ASLI ---
 var default_laser_x: float = 0.0
-var initial_laser_scale: Vector2 = Vector2(1, 1) # Default jaga-jaga
+var initial_laser_scale: Vector2 = Vector2(1, 1) 
 # --------------------------------------------------
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -30,31 +39,45 @@ func _ready():
 		laser_beam.is_from_player = true
 		laser_beam.visible = false 
 		
-		# --- [PENTING] REKAM SETTINGAN EDITOR ---
-		# Catat posisi X asli
+		# --- REKAM SETTINGAN EDITOR ---
 		default_laser_x = laser_beam.position.x
-		# Catat Skala (ukuran) asli yang Anda atur di Inspector
 		initial_laser_scale = laser_beam.scale
-		# ----------------------------------------
+		# ------------------------------
 
 func _physics_process(delta: float) -> void:
 	update_ui()
+	
+	# --- [BARU] LOGIKA CHARGE ES (DIAM TOTAL) ---
+	# Jika sedang casting es, hentikan semua gerakan & gravitasi
+	if is_casting_ice:
+		velocity = Vector2.ZERO # Berhenti total (melayang jika di udara)
+		move_and_slide()
+		return # Stop baca kode di bawahnya
+	# --------------------------------------------
 
+	# Kode gravitasi normal (Jalan kalau TIDAK casting es)
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# CEGAH GERAK SAAT NEMBAK LASER
+	# CEGAH GERAK SAAT NEMBAK LASER (Yang lama tetap ada)
 	if is_casting_laser:
 		velocity.x = 0
 		animated_sprite.play("idle")
 		move_and_slide()
 		return 
+	
+	# ... (Sisa kode movement lainnya tetap sama) ...
 
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		attack()
 
 	if Input.is_action_just_pressed("shoot"):
 		fire_laser()
+
+	# --- [BARU] INPUT TEMBAK ES (Pastikan Input Map 'shoot_ice' sudah dibuat) ---
+	if Input.is_action_pressed("shoot_ice") and can_fire_ice:
+		fire_ice()
+	# ---------------------------------------------------------------------------
 
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer.start()
@@ -68,16 +91,12 @@ func _physics_process(delta: float) -> void:
 
 	var direction := Input.get_axis("move left", "move right")
 
-	# --- LOGIKA ARAH & UKURAN LASER (PERBAIKAN TOTAL) ---
+	# --- LOGIKA ARAH & UKURAN LASER ---
 	if direction > 0:
 		# HADAP KANAN
 		animated_sprite.flip_h = false
 		if laser_beam:
-			# 1. Kembalikan posisi ke kanan
 			laser_beam.position.x = abs(default_laser_x)
-			
-			# 2. Paksa ukuran kembali ke UKURAN ASLI (mengatasi penyok & kecil)
-			# Kita gunakan 'abs' untuk memastikan nilainya positif (hadap kanan)
 			laser_beam.scale.x = abs(initial_laser_scale.x)
 			laser_beam.scale.y = abs(initial_laser_scale.y)
 			
@@ -85,20 +104,15 @@ func _physics_process(delta: float) -> void:
 		# HADAP KIRI
 		animated_sprite.flip_h = true
 		if laser_beam:
-			# 1. Pindahkan posisi ke kiri
 			laser_beam.position.x = -abs(default_laser_x)
-			
-			# 2. Paksa ukuran ASLI tapi dibalik X-nya (mengatasi tidak berputar)
 			laser_beam.scale.x = -abs(initial_laser_scale.x)
 			laser_beam.scale.y = abs(initial_laser_scale.y)
 			
 	else:
-		# SAAT DIAM (Jaga agar tetap konsisten)
+		# SAAT DIAM
 		if laser_beam:
-			# Pastikan scale Y tidak penyok saat diam
 			laser_beam.scale.y = abs(initial_laser_scale.y)
-			# Scale X biarkan saja mengikuti arah terakhirnya
-	# ----------------------------------------------------
+	# ----------------------------------
 
 	if not is_attacking:
 		if is_on_floor():
@@ -131,31 +145,79 @@ func attack():
 
 
 func fire_laser():
-	# Cek syarat dasar
 	if not Global.has_laser_ability: return
 	if is_casting_laser: return 
 	if not is_on_floor(): return 
 	
-	# --- [PERBAIKAN BUG] ---
-	# Jika sedang memukul (melee), batalkan paksa!
 	if is_attacking:
 		is_attacking = false
 		hitbox_collision.set_deferred("disabled", true)
-	# -----------------------
 
-	# Mulai proses laser
 	is_casting_laser = true
 	velocity.x = 0 
 	
 	if laser_beam:
 		laser_beam.fire()
-		# Tunggu animasi laser selesai
 		await laser_beam.get_node("AnimatedSprite2D").animation_finished
-		# Tunggu cooldown 1 detik
 		await get_tree().create_timer(0.5).timeout
 		
 	is_casting_laser = false
 
+# --- [BARU] FUNGSI TEMBAK ES ---
+func fire_ice():
+	if not Global.has_ice_ability: return
+	
+	# [BARU] Cek: Jangan nembak kalau lagi casting (biar ga double)
+	if is_casting_ice: return
+	
+	can_fire_ice = false
+	
+	# Batalkan serangan melee jika sedang memukul
+	if is_attacking:
+		is_attacking = false
+		hitbox_collision.set_deferred("disabled", true)
+	
+	# 1. MULAI MODE DIAM (FREEZE)
+	is_casting_ice = true
+	velocity = Vector2.ZERO # Reset kecepatan biar langsung berhenti
+	
+	# (Opsional) Mainkan animasi player tertentu, misal 'idle' atau 'attack'
+	# animated_sprite.play("attack") 
+	
+	# 2. Instantiate Peluru
+	var ice = ICE_SCENE.instantiate()
+	
+	# Setup Offset
+	var vertical_offset = -5 
+	if animated_sprite.flip_h: 
+		ice.global_position = global_position + Vector2(-25, vertical_offset)
+		ice.direction = -1
+		ice.get_node("AnimatedSprite2D").flip_h = true 
+	else: 
+		ice.global_position = global_position + Vector2(25, vertical_offset)
+		ice.direction = 1
+		ice.get_node("AnimatedSprite2D").flip_h = false
+		
+	get_tree().root.add_child(ice)
+	
+	# 3. TUNGGU ANIMASI PELURU SELESAI (SINKRONISASI)
+	# Kita akses Sprite di dalam peluru untuk tahu kapan animasi "spawn" beres
+	var ice_sprite = ice.get_node("AnimatedSprite2D")
+	
+	# Pastikan node sprite ada biar ga error
+	if ice_sprite:
+		# Player diam menunggu sinyal 'animation_finished' dari peluru es
+		await ice_sprite.animation_finished
+	else:
+		# Fallback kalau error: tunggu manual 0.5 detik
+		await get_tree().create_timer(0.5).timeout
+	
+	# 4. KEMBALI GERAK
+	is_casting_ice = false
+	
+	# Timer cooldown tembakan berikutnya
+	await get_tree().create_timer(ice_cooldown_time).timeout
+	can_fire_ice = true
 
 func die():
 	if is_dead: return

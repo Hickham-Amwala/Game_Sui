@@ -1,0 +1,122 @@
+[gd_scene load_steps=15 format=3 uid="uid://bn2jjgp13xn7o"]
+
+[ext_resource type="Script" uid="uid://dcgle2a5vwic2" path="res://scripts/ice_projectile.gd" id="1_18e0n"]
+[ext_resource type="Texture2D" uid="uid://ca7pl33i3xtdf" path="res://asset/Sprites/Player/skill/ice_shard/I5050-1.png" id="2_lwj24"]
+[ext_resource type="Texture2D" uid="uid://8qgixutrqibj" path="res://asset/Sprites/Player/skill/ice_shard/I5050-2.png" id="3_35hdy"]
+[ext_resource type="Texture2D" uid="uid://bx7oy3nkjqiqj" path="res://asset/Sprites/Player/skill/ice_shard/I5050-3.png" id="4_240dx"]
+[ext_resource type="Texture2D" uid="uid://bqb3fq5n5q0ap" path="res://asset/Sprites/Player/skill/ice_shard/I5050-4.png" id="5_ujdbo"]
+[ext_resource type="Texture2D" uid="uid://bfd6ix3fqfai5" path="res://asset/Sprites/Player/skill/ice_shard/I5050-5.png" id="6_uedn7"]
+[ext_resource type="Texture2D" uid="uid://b8168ya762nv1" path="res://asset/Sprites/Player/skill/ice_shard/I5050-6.png" id="7_cfi54"]
+[ext_resource type="Texture2D" uid="uid://2pcq7yk1w57j" path="res://asset/Sprites/Player/skill/ice_shard/I5050-7.png" id="8_8sbqp"]
+[ext_resource type="Texture2D" uid="uid://m1sodqayslpt" path="res://asset/Sprites/Player/skill/ice_shard/I5050-8.png" id="9_56lua"]
+[ext_resource type="Texture2D" uid="uid://bvacx0komg6xk" path="res://asset/Sprites/Player/skill/ice_shard/I5050-9.png" id="10_mjk7g"]
+[ext_resource type="Texture2D" uid="uid://rio2wrip8k2y" path="res://asset/Sprites/Player/skill/ice_shard/I5050-10.png" id="11_alwx2"]
+[ext_resource type="Texture2D" uid="uid://cwfbl5lkerqhh" path="res://asset/Sprites/Player/skill/ice_shard/I5050-11.png" id="12_myhuv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5f8pc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lwj24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_35hdy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_240dx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ujdbo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uedn7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_cfi54")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8sbqp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_56lua")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_mjk7g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_alwx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_myhuv")
+}],
+"loop": false,
+"name": &"default",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_8sbqp")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_56lua")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_mjk7g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_alwx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_myhuv")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lwj24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_35hdy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_240dx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ujdbo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uedn7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_cfi54")
+}],
+"loop": false,
+"name": &"spawn",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_18e0n"]
+size = Vector2(325.4501, 216.96674)
+
+[node name="IceProjectile" type="Area2D"]
+scale = Vector2(0.07374402, 0.07374402)
+collision_mask = 5
+script = ExtResource("1_18e0n")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5f8pc")
+animation = &"hit"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_18e0n")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

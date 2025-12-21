@@ -38,7 +38,7 @@ texture = ExtResource("3_vtaks")
 [sub_resource type="TileSet" id="TileSet_dinhu"]
 sources/1 = SubResource("TileSetAtlasSource_kvpfn")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnu2h"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lsoed"]
 texture = ExtResource("1_yqjtg")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -200,7 +200,7 @@ texture = ExtResource("1_yqjtg")
 0:4/0 = 0
 0:5/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_onhll"]
 texture = ExtResource("4_0tnpc")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -0.9742451, 8, -1.088862, 8, 8, -8, 8)
@@ -743,7 +743,7 @@ texture = ExtResource("4_0tnpc")
 11:19/0 = 0
 11:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lsoed"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6cu4h"]
 texture = ExtResource("9_pog00")
 3:0/0 = 0
 4:0/0 = 0
@@ -888,7 +888,7 @@ texture = ExtResource("9_pog00")
 15:8/0 = 0
 16:8/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_onhll"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pec0j"]
 texture = ExtResource("10_pog00")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -923,10 +923,10 @@ texture = ExtResource("10_pog00")
 
 [sub_resource type="TileSet" id="TileSet_lbhrr"]
 physics_layer_0/collision_layer = 1
-sources/1 = SubResource("TileSetAtlasSource_lnu2h")
-sources/2 = SubResource("TileSetAtlasSource_vtaks")
-sources/3 = SubResource("TileSetAtlasSource_lsoed")
-sources/4 = SubResource("TileSetAtlasSource_onhll")
+sources/1 = SubResource("TileSetAtlasSource_lsoed")
+sources/2 = SubResource("TileSetAtlasSource_onhll")
+sources/3 = SubResource("TileSetAtlasSource_6cu4h")
+sources/4 = SubResource("TileSetAtlasSource_pec0j")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iywne"]
 texture = ExtResource("1_yqjtg")
@@ -1381,7 +1381,7 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("1_uwrxv")]
-position = Vector2(-14, -10)
+position = Vector2(2263, -153)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -1721,20 +1721,19 @@ scale = Vector2(6.3451753, 6.3451753)
 
 [node name="FadeTransition" parent="." instance=ExtResource("12_310cc")]
 z_index = 6
-offset_left = -455.0
-offset_top = -239.0
-offset_right = 384.0
-offset_bottom = 321.0
+offset_left = -3288.0
+offset_top = -1586.0
+offset_right = 3217.0
+offset_bottom = 1668.0
 
 [node name="music1" type="AudioStreamPlayer2D" parent="."]
 process_mode = 3
 stream = ExtResource("15_003fr")
-volume_db = -80.0
 autoplay = true
 max_distance = 123160.0
 attenuation = 1e-05
 bus = &"Music"
 
 [node name="Key" parent="." instance=ExtResource("18_pog00")]
-position = Vector2(2497, -158)
-scale = Vector2(0.29670718, 0.29670718)
+position = Vector2(2493, -163)
+scale = Vector2(0.5631628, 0.5631628)

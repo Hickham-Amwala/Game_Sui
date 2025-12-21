@@ -4,11 +4,8 @@ extends Node
 var lives = 3 
 var max_lives = 3
 
-# [PENTING] 
-# Saya set 'true' dulu supaya kamu bisa tes tembak laser SEKARANG.
-# Nanti kalau Boss Battle dan item drop-nya sudah jadi, 
-# UBAH KEMBALI ini menjadi 'false' ya!
-var has_laser_ability = false
+var has_laser_ability = true
+var has_ice_ability = false
 
 # --- DATA SKOR ---
 # Kamu tadi bilang mau pindahkan skor ke sini biar aman, jadi saya tambahkan sekalian.

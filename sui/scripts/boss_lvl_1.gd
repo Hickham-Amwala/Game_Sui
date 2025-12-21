@@ -23,7 +23,7 @@ enum {
 var current_state = IDLE
 
 # --- VARIABEL STATUS ---
-var hp = 30
+var hp = 1
 var speed = 60
 var attack_range = 250 
 var player_ref = null
