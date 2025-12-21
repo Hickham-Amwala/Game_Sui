@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpihsyfbjsofl"]
+
+[ext_resource type="Script" uid="uid://cto3ght3yor71" path="res://scripts/ability_pickup_2.gd" id="1_ygm0d"]
+[ext_resource type="Texture2D" uid="uid://cmfc5pglpmi1g" path="res://asset/Sprites/Chess/Chest_05.png" id="2_ygm0d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n31x4"]
+size = Vector2(16, 16)
+
+[node name="AbilityPickup" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_ygm0d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ygm0d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n31x4")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

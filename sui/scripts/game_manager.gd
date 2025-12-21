@@ -4,45 +4,52 @@ signal level_unlocked
 
 var score = 0
 var total_coins = 0
-# [BARU] Variabel untuk mengecek status bos
 var is_boss_dead = false 
+
+# [BARU] Variabel pengaman agar kunci tidak muncul dobel
+var level_finished = false
 
 @onready var score_label: Label = $ScoreLabel
 
 func _ready():
-	# Hitung total koin
 	total_coins = get_tree().get_node_count_in_group("coins")
-	# Pastikan status bos reset saat game mulai
 	is_boss_dead = false 
+	level_finished = false # Reset status
 	
-	update_ui()
-	print("Target: ", total_coins, " Koin + Kalahkan Bos")
+	if score_label:
+		score_label.visible = false
 
 func add_point():
 	score += 1
-		
+	print("Koin terkumpul: ", score, " / ", total_coins)
 	check_level_completion()
 
-# [BARU] Fungsi ini dipanggil oleh BOS saat dia mati
 func boss_defeated():
-	print("Laporan diterima: Bos telah dikalahkan!")
+	print("Laporan: Boss telah dikalahkan!")
 	is_boss_dead = true
-	# Cek apakah syarat menang terpenuhi
+	
+	if score_label:
+		score_label.visible = true 
+	
 	check_level_completion()
 
-# [BARU] Fungsi Pengecekan Utama
 func check_level_completion():
-	# Syarat: Koin Penuh DAN Bos Mati
-	if score == total_coins and is_boss_dead:
-		print("SYARAT LENGKAP! KUNCI MUNCUL!")
+	# Cek syarat: Koin Penuh, Boss Mati, DAN level belum selesai sebelumnya
+	if score >= total_coins and is_boss_dead and not level_finished:
+		
+		# 1. Kunci status level biar tidak terpanggil lagi
+		level_finished = true
+		
+		print("Syarat lengkap! Menunggu 2 detik sebelum kunci muncul...")
+		
+		# 2. [INTI PERUBAHAN] Tunda selama 2 Detik
+		await get_tree().create_timer(2.0).timeout
+		
+		# 3. Baru munculkan kunci/pintu
+		print("Waktu habis! Kunci Muncul Sekarang.")
 		level_unlocked.emit()
+		
 	else:
-		# Opsional: Beri info ke player apa yang kurang
-		if score < total_coins:
-			print("Belum bisa, koin kurang!")
-		if not is_boss_dead:
-			print("Belum bisa, bos masih hidup!")
-
-func update_ui():
-	if score_label:
-		score_label.text = "Coins: " + str(score) + " / " + str(total_coins)
+		# Info debug biasa
+		if not level_finished:
+			print("Belum Selesai. Koin: ", score, "/", total_coins, " | Boss Mati: ", is_boss_dead)

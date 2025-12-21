@@ -1,0 +1,274 @@
+[gd_scene load_steps=7 format=3 uid="uid://ce42lml07aaiq"]
+
+[ext_resource type="Script" uid="uid://dycq3w7awsfi2" path="res://scripts/credits.gd" id="1_2ckv8"]
+[ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="2_0ctdu"]
+[ext_resource type="Texture2D" uid="uid://chknlv7ofgkvi" path="res://asset/MainMenu/Option_bg.png" id="2_2fbfq"]
+[ext_resource type="PackedScene" uid="uid://dry5hylvuosuf" path="res://scenes/fade_transition.tscn" id="4_2fbfq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8gwij"]
+texture = ExtResource("2_2fbfq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mah5v"]
+bg_color = Color(0, 0, 0, 0.5294118)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2ckv8")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8gwij")
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mah5v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -464.0
+offset_top = -220.0
+offset_right = 464.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "DEVELOPED BY  SINGKONG KEJU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="kosong" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "
+
+
+
+
+
+
+
+
+
+
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "THE TEAM"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Project Manager: Felix Angga R "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Programmer: Hickham Amwala K "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Environment Artist & UI Designer: Ghinova Klarisa I"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label6" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Environment Artist & UI Designer: M Fariz Alfaritzi "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label7" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "QA Lead: M Abu Yusuf"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="kosong2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "
+
+
+
+
+
+
+
+
+
+
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label8" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "EXTERNAL RESOURCES "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label9" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Slime Character: sevenwave7 (itch.io) "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label10" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Boss Level 1: darkpixel-kronovi (itch.io)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label11" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Boss Level 2: chierit (itch.io)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label12" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Boss Level 3: chierit (itch.io)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label13" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Sui Attack Effect (Ice Shard): NYKNCK (itch.io)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label14" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Level Tilesets: Kevin’s Mom’s House (itch.io) "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label15" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Chest Sprites: PixelExplosive (itch.io)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label16" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "Music & SFX: Pixabay.com"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="kosong3" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "
+
+
+
+
+
+
+
+
+
+
+
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label20" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "SPECIAL THANKS TO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label21" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0ctdu")
+theme_override_font_sizes/font_size = 16
+text = "To our friends, family, and everyone who played this game!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FadeTransition" parent="." instance=ExtResource("4_2fbfq")]
+layout_mode = 1
+offset_left = -90.0
+offset_top = -54.0
+offset_right = 90.0
+offset_bottom = 54.0
