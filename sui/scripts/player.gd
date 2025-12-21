@@ -13,11 +13,16 @@ var is_attacking: bool = false
 var is_dead: bool = false
 var is_casting_laser: bool = false 
 
+# --- [BARU] VARIABEL CUTSCENE (EVENT) ---
+var is_cutscene: bool = false # Penanda apakah player sedang dalam mode event/cutscene
+# ----------------------------------------
+
 # --- [BARU] VARIABEL COOLDOWN ES ---
 var can_fire_ice = true
-var ice_cooldown_time = 1 # Jeda tembak 0.5 detik
+var ice_cooldown_time = 1 
 # -----------------------------------
-var is_casting_ice: bool = false # Penanda sedang charge es
+var is_casting_ice: bool = false 
+
 # --- VARIABEL UNTUK MEREKAM POSISI & SKALA ASLI ---
 var default_laser_x: float = 0.0
 var initial_laser_scale: Vector2 = Vector2(1, 1) 
@@ -45,21 +50,35 @@ func _ready():
 		# ------------------------------
 
 func _physics_process(delta: float) -> void:
+	# --- [BARU] LOGIKA CUTSCENE (PRIORITAS TERTINGGI) ---
+	# Jika sedang cutscene, player dipaksa diam tapi tetap kena gravitasi
+	if is_cutscene:
+		velocity.x = 0 # Stop gerak kiri/kanan
+		
+		# Tetap terapkan gravitasi agar kaki menapak tanah
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+		else:
+			# Jika di tanah, mainkan animasi diam
+			animated_sprite.play("idle")
+			
+		move_and_slide()
+		return # STOP! Jangan baca kode input tombol di bawah ini
+	# ----------------------------------------------------
+
 	update_ui()
 	
-	# --- [BARU] LOGIKA CHARGE ES (DIAM TOTAL) ---
-	# Jika sedang casting es, hentikan semua gerakan & gravitasi
+	# --- LOGIKA CHARGE ES ---
 	if is_casting_ice:
-		velocity = Vector2.ZERO # Berhenti total (melayang jika di udara)
+		velocity = Vector2.ZERO 
 		move_and_slide()
-		return # Stop baca kode di bawahnya
-	# --------------------------------------------
+		return 
 
-	# Kode gravitasi normal (Jalan kalau TIDAK casting es)
+	# Kode gravitasi normal 
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# CEGAH GERAK SAAT NEMBAK LASER (Yang lama tetap ada)
+	# CEGAH GERAK SAAT NEMBAK LASER 
 	if is_casting_laser:
 		velocity.x = 0
 		animated_sprite.play("idle")
@@ -74,10 +93,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("shoot"):
 		fire_laser()
 
-	# --- [BARU] INPUT TEMBAK ES (Pastikan Input Map 'shoot_ice' sudah dibuat) ---
+	# --- INPUT TEMBAK ES ---
 	if Input.is_action_pressed("shoot_ice") and can_fire_ice:
 		fire_ice()
-	# ---------------------------------------------------------------------------
+	# -----------------------
 
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer.start()
@@ -93,7 +112,6 @@ func _physics_process(delta: float) -> void:
 
 	# --- LOGIKA ARAH & UKURAN LASER ---
 	if direction > 0:
-		# HADAP KANAN
 		animated_sprite.flip_h = false
 		if laser_beam:
 			laser_beam.position.x = abs(default_laser_x)
@@ -101,7 +119,6 @@ func _physics_process(delta: float) -> void:
 			laser_beam.scale.y = abs(initial_laser_scale.y)
 			
 	elif direction < 0:
-		# HADAP KIRI
 		animated_sprite.flip_h = true
 		if laser_beam:
 			laser_beam.position.x = -abs(default_laser_x)
@@ -109,7 +126,6 @@ func _physics_process(delta: float) -> void:
 			laser_beam.scale.y = abs(initial_laser_scale.y)
 			
 	else:
-		# SAAT DIAM
 		if laser_beam:
 			laser_beam.scale.y = abs(initial_laser_scale.y)
 	# ----------------------------------
@@ -130,6 +146,19 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+# --- [BARU] FUNGSI YANG DIPANGGIL OLEH TRIGGER EVENT ---
+# Fungsi ini akan dipanggil oleh script StunEventTrigger
+func set_cutscene_mode(active: bool):
+	is_cutscene = active
+	if active:
+		# Reset kecepatan horizontal biar langsung berhenti
+		velocity.x = 0
+		# Matikan animasi serangan/charge jika sedang jalan
+		is_attacking = false
+		is_casting_ice = false
+		is_casting_laser = false
+		hitbox_collision.set_deferred("disabled", true)
+# -------------------------------------------------------
 
 func update_ui():
 	if life_label:
@@ -163,31 +192,21 @@ func fire_laser():
 		
 	is_casting_laser = false
 
-# --- [BARU] FUNGSI TEMBAK ES ---
+# --- FUNGSI TEMBAK ES ---
 func fire_ice():
 	if not Global.has_ice_ability: return
-	
-	# [BARU] Cek: Jangan nembak kalau lagi casting (biar ga double)
 	if is_casting_ice: return
 	
 	can_fire_ice = false
 	
-	# Batalkan serangan melee jika sedang memukul
 	if is_attacking:
 		is_attacking = false
 		hitbox_collision.set_deferred("disabled", true)
 	
-	# 1. MULAI MODE DIAM (FREEZE)
 	is_casting_ice = true
-	velocity = Vector2.ZERO # Reset kecepatan biar langsung berhenti
+	velocity = Vector2.ZERO 
 	
-	# (Opsional) Mainkan animasi player tertentu, misal 'idle' atau 'attack'
-	# animated_sprite.play("attack") 
-	
-	# 2. Instantiate Peluru
 	var ice = ICE_SCENE.instantiate()
-	
-	# Setup Offset
 	var vertical_offset = -5 
 	if animated_sprite.flip_h: 
 		ice.global_position = global_position + Vector2(-25, vertical_offset)
@@ -200,22 +219,14 @@ func fire_ice():
 		
 	get_tree().root.add_child(ice)
 	
-	# 3. TUNGGU ANIMASI PELURU SELESAI (SINKRONISASI)
-	# Kita akses Sprite di dalam peluru untuk tahu kapan animasi "spawn" beres
 	var ice_sprite = ice.get_node("AnimatedSprite2D")
-	
-	# Pastikan node sprite ada biar ga error
 	if ice_sprite:
-		# Player diam menunggu sinyal 'animation_finished' dari peluru es
 		await ice_sprite.animation_finished
 	else:
-		# Fallback kalau error: tunggu manual 0.5 detik
 		await get_tree().create_timer(0.5).timeout
 	
-	# 4. KEMBALI GERAK
 	is_casting_ice = false
 	
-	# Timer cooldown tembakan berikutnya
 	await get_tree().create_timer(ice_cooldown_time).timeout
 	can_fire_ice = true
 
