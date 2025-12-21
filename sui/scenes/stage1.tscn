@@ -1597,10 +1597,10 @@ scale = Vector2(6.3451753, 6.3451753)
 
 [node name="FadeTransition" parent="." instance=ExtResource("12_310cc")]
 z_index = 6
-offset_left = -419.0
-offset_top = -283.0
-offset_right = 420.0
-offset_bottom = 277.0
+offset_left = -406.0
+offset_top = -307.0
+offset_right = 433.0
+offset_bottom = 253.0
 
 [node name="music1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("15_003fr")

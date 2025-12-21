@@ -145,3 +145,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		if body.has_method("take_damage"):
 			body.take_damage(1)
+
+
+func _on_boss_trigger_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
