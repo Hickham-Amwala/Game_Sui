@@ -1,10 +1,11 @@
-[gd_scene load_steps=54 format=4 uid="uid://cu2l3qhor4ruy"]
+[gd_scene load_steps=55 format=4 uid="uid://cu2l3qhor4ruy"]
 
 [ext_resource type="Script" uid="uid://wnxwcou0bcmq" path="res://scripts/stage_1.gd" id="1_g4b0s"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://bawk2gjdd4k7h" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://c86g506eeimyo" path="res://asset/Sprites/Terrain/midground_/world_tileset.png" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://c2noi075437d3" path="res://scenes/platform.tscn" id="3_lnu2h"]
+[ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="3_lsoed"]
 [ext_resource type="Texture2D" uid="uid://bq3agsi6gxb4g" path="res://asset/Sprites/Terrain/foreground_/foreground_.png" id="3_vtaks"]
 [ext_resource type="Texture2D" uid="uid://chg74n5ksij3m" path="res://asset/Sprites/Terrain/midground_/summer_.png" id="4_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://rd8l8dybrlg1" path="res://scenes/coin.tscn" id="4_lbhrr"]
@@ -1363,19 +1364,21 @@ unique_name_in_owner = true
 script = ExtResource("1_gee14")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
-visible = false
-offset_left = 2199.0
-offset_top = -209.0
-offset_right = 2298.0
-offset_bottom = -185.0
+offset_left = 2311.0
+offset_top = -209.99998
+offset_right = 2725.0
+offset_bottom = -121.999985
+scale = Vector2(0.54839575, 0.54839575)
 theme_override_constants/line_spacing = 8
 theme_override_constants/paragraph_spacing = 0
-theme_override_fonts/font = ExtResource("7_u5sy4")
+theme_override_fonts/font = ExtResource("3_lsoed")
 theme_override_font_sizes/font_size = 8
-text = "You get X coins"
-horizontal_alignment = 1
+text = "YOU DID IT!
+Press L for Laser
+Journey Continues..."
 vertical_alignment = 1
 autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("1_uwrxv")]
 position = Vector2(2234, -156)
@@ -1454,17 +1457,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="Labels"]
-offset_left = 346.00003
-offset_top = -206.0
-offset_right = 460.28543
-offset_bottom = -182.0
+offset_left = 331.0
+offset_top = -221.0
+offset_right = 489.0
+offset_bottom = -165.0
 scale = Vector2(0.56000125, 0.5199994)
 theme_override_constants/line_spacing = 8
 theme_override_constants/paragraph_spacing = 0
 theme_override_fonts/font = ExtResource("7_u5sy4")
 theme_override_font_sizes/font_size = 8
 text = "Don't leave any 
-Coin behind!"
+Coin behind!
+Cause for open the portal
+need to find all the coins"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1722,6 +1727,7 @@ offset_right = 384.0
 offset_bottom = 321.0
 
 [node name="music1" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 stream = ExtResource("15_003fr")
 volume_db = -80.0
 autoplay = true

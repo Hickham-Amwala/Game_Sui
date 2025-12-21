@@ -113,14 +113,14 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 7.0
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ffj4j"]
 size = Vector2(17.327396, 3.1115894)
 
 [node name="LaserBeam" type="Area2D"]
-collision_mask = 2
+collision_mask = 6
 script = ExtResource("1_ierl2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

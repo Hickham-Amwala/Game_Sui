@@ -7,6 +7,10 @@ extends CharacterBody2D
 @onready var game_manager = %GameManager
 @onready var health_bar: ProgressBar = $ProgressBar
 
+# --- [BARU] REFERENSI ITEM DROP ---
+# Pastikan path ini benar (sesuai tempat kamu simpan scene AbilityPickup)
+const DROP_ITEM_SCENE = preload("res://scenes/ability_pickup.tscn")
+
 # --- STATE MACHINE ---
 enum {
 	IDLE,
@@ -19,7 +23,7 @@ enum {
 var current_state = IDLE
 
 # --- VARIABEL STATUS ---
-var hp = 10 
+var hp = 1 
 var speed = 60
 var attack_range = 250 
 var player_ref = null
@@ -129,34 +133,20 @@ func _process_attack_shoot():
 		if laser_beam.has_method("stop_firing"):
 			laser_beam.stop_firing()
 
-# --- HELPER: DORONG PLAYER KELUAR ---
-# --- HELPER: DORONG PLAYER KELUAR (UPDATE FIX TENGAH) ---
+
 # --- HELPER: DORONG PLAYER KELUAR (VERSI AGRESIF) ---
 func force_push_player():
 	if player_ref != null:
-		# 1. Hitung selisih jarak Horizontal (X) saja
 		var diff_x = player_ref.global_position.x - global_position.x
-		
 		var push_dir_x = 0
 		
-		# 2. ZONA TOLERANSI (DEADZONE)
-		# Jika player berada di jarak kurang dari 10 pixel dari pusat bos
 		if abs(diff_x) < 10.0:
-			# Anggap ini "Tepat Di Tengah" -> Pilih arah acak paksa
 			var random_side = [-1, 1].pick_random()
 			push_dir_x = random_side
-			print("Player di Zona Tengah! Paksa lempar ke: ", random_side)
 		else:
-			# Jika tidak di tengah, dorong menjauh sesuai posisinya
-			# sign() akan mengembalikan 1 jika positif (kanan), -1 jika negatif (kiri)
 			push_dir_x = sign(diff_x)
 
-		# 3. Buat Vektor Dorongan
-		# Trik Pro: Tambahkan sedikit Y negatif (-0.5) agar player 'melompat' sedikit.
-		# Ini mencegah player tertahan oleh gesekan lantai.
 		var push_vector = Vector2(push_dir_x, -0.5).normalized()
-
-		# 4. Terapkan Dorongan Kuat
 		player_ref.velocity = push_vector * 800
 		
 		if player_ref.has_method("take_damage"):
@@ -192,21 +182,18 @@ func _on_animation_finished():
 		else:
 			current_state = IDLE
 
+
 # --- DAMAGE & MATI ---
 func take_damage(amount):
 	if current_state == DEAD: return
 	
 	hp -= amount
-	print("Bos HP: ", hp)
 	
 	if health_bar:
-		# Kita pakai Tween agar barnya turun dengan halus (animasi)
 		var bar_tween = create_tween()
 		bar_tween.tween_property(health_bar, "value", hp, 0.2).set_trans(Tween.TRANS_SINE)
-		# Jika tidak mau pakai animasi halus, cukup pakai: health_bar.value = hp
 		
-	print("Bos HP: ", hp)
-	
+	# Efek Berkedip Merah (Hit Flash)
 	modulate = Color.RED
 	var tween = create_tween()
 	tween.tween_property(self, "modulate", Color.WHITE, 0.1)
@@ -223,15 +210,11 @@ func take_damage(amount):
 func die():
 	if current_state == DEAD: return
 	
-	print("Bos Kalah!")
+	print("Boss Kalah!")
 	current_state = DEAD
 	
 	if game_manager:
 		game_manager.boss_defeated()
-	else:
-		print("Error: Bos tidak bisa menemukan GameManager!")
-
-	current_state = DEAD
 	
 	if health_bar:
 		health_bar.hide()
@@ -239,21 +222,40 @@ func die():
 	if laser_beam.has_method("stop_firing"):
 		laser_beam.stop_firing()
 	
-	# Matikan fisika total (Gravity Off)
+	# Matikan fisika total
 	set_physics_process(false)
-	# Matikan collision tubuh
 	body_collision.set_deferred("disabled", true)
-	# Matikan deteksi anti-camping
 	$BodyHitbox.set_deferred("monitoring", false)
 	
-	# Animasi Melayang
+	# 1. JALANKAN VISUAL MATI DULUAN (Supaya tidak kaku)
+	animated_sprite.play("die")
+	
+	# Animasi Melayang (Durasi 1 detik)
 	var tween = create_tween()
 	tween.tween_property(self, "position", position - Vector2(0, 18), 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
-	animated_sprite.play("die")
+	# 2. TUNGGU 1 DETIK (Selama animasi melayang berjalan)
+	await get_tree().create_timer(1.0).timeout
+	
+	# 3. BARU MUNCULKAN ITEM
+	spawn_drop()
 
 
-# --- SENSOR DETEKSI PLAYER (DetectionArea) ---
+# --- [BARU] FUNGSI SPAWN ITEM ---
+func spawn_drop():
+	# Cek apakah scene item sudah ada
+	if DROP_ITEM_SCENE:
+		var item = DROP_ITEM_SCENE.instantiate()
+		item.global_position = global_position
+		
+		# Masukkan ke scene utama (Root)
+		get_tree().root.add_child(item)
+		print("Item Ability Dropped!")
+	else:
+		print("ERROR: Scene Item Drop belum di-preload!")
+
+
+# --- SENSOR DETEKSI PLAYER ---
 func _on_detection_area_body_entered(body):
 	if current_state == DEAD: return
 	if body.is_in_group("player"):
@@ -267,8 +269,7 @@ func _on_detection_area_body_exited(body):
 		player_ref = null
 
 
-# --- SENSOR ANTI-CAMPING (BodyHitbox) ---
-# Hubungkan sinyal ini di Editor dari node BodyHitbox!
+# --- SENSOR ANTI-CAMPING ---
 func _on_body_hitbox_body_entered(body):
 	if body.is_in_group("player"):
 		is_player_inside_body = true

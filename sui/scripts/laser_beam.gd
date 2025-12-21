@@ -46,13 +46,26 @@ func _on_animation_finished():
 
 # --- LOGIKA TABRAKAN (PINTAR) ---
 func _on_body_entered(body):
+	# SKENARIO 1: Laser Punya Player (Menyerang Musuh)
 	if is_from_player:
-		# Jika Punya Player -> Serang MUSUH
-		if body.is_in_group("enemies") or body.name == "Boss":
-			if body.has_method("die"): body.die()
-			elif body.has_method("take_damage"): body.take_damage(1)
+		# Cek apakah yang kena adalah Musuh atau Boss
+		# (Saya tambahkan 'enemy' dan 'enemies' jaga-jaga nama grup kamu beda)
+		if body.is_in_group("enemy") or body.is_in_group("enemies") or body.name == "Boss":
+			
+			# --- PERUBAHAN DISINI ---
+			# Kita panggil fungsi take_damage dengan angka 5
+			if body.has_method("take_damage"):
+				body.take_damage(5) # <--- DAMAGE BESAR!
+				
+			# Fallback: Kalau musuh gak punya nyawa (langsung mati), panggil die()
+			elif body.has_method("die"):
+				body.die()
+			
+			# Hancurkan laser jika bukan mode tembus (Opsional)
+			# Tapi karena ini Kamehameha, biasanya tembus (jangan queue_free)
+			
+	# SKENARIO 2: Laser Punya Boss (Menyerang Player)
 	else:
-		# Jika Punya Boss -> Serang PLAYER
 		if body.name == "Player":
 			if body.has_method("die"): body.die()
 			# elif body.has_method("hurt"): body.hurt()

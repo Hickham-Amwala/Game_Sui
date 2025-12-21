@@ -142,10 +142,8 @@ script = ExtResource("1_qlg0r")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"attack"
+animation = &"walk"
 autoplay = "idle"
-frame = 7
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 shape = SubResource("CircleShape2D_fjrip")
@@ -220,8 +218,7 @@ label_settings = SubResource("LabelSettings_dt7fs")
 [node name="PauseMenu" parent="." instance=ExtResource("28_pf23h")]
 
 [node name="LaserBeam" parent="." instance=ExtResource("29_dt7fs")]
-visible = false
-position = Vector2(33, 12)
+position = Vector2(33, 12.000001)
 scale = Vector2(4.7597094, 4.7597094)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_animation_finished"]

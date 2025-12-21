@@ -4,45 +4,50 @@ signal level_unlocked
 
 var score = 0
 var total_coins = 0
-# [BARU] Variabel untuk mengecek status bos
 var is_boss_dead = false 
 
 @onready var score_label: Label = $ScoreLabel
 
 func _ready():
-	# Hitung total koin
+	# 1. Hitung total koin yang ada di level ini
 	total_coins = get_tree().get_node_count_in_group("coins")
-	# Pastikan status bos reset saat game mulai
+	
+	# Reset status boss
 	is_boss_dead = false 
 	
-	update_ui()
-	print("Target: ", total_coins, " Koin + Kalahkan Bos")
+	# 2. Pastikan Label Pesan SEMBUNYI di awal game
+	if score_label:
+		score_label.visible = false
+		# Kita TIDAK mengubah .text disini, jadi teksnya
+		# akan tetap sesuai dengan yang Anda ketik di Editor.
 
 func add_point():
 	score += 1
-		
+	print("Koin terkumpul: ", score, " / ", total_coins)
+	
+	# Setiap ambil koin, cek apakah syarat menang sudah terpenuhi?
 	check_level_completion()
 
-# [BARU] Fungsi ini dipanggil oleh BOS saat dia mati
 func boss_defeated():
-	print("Laporan diterima: Bos telah dikalahkan!")
+	print("Laporan: Boss telah dikalahkan!")
 	is_boss_dead = true
-	# Cek apakah syarat menang terpenuhi
+	
+	# 1. Munculkan Pesan Kemenangan (Label)
+	if score_label:
+		score_label.visible = true # Cukup bikin visible, teksnya sudah ada
+	
+	# 2. Cek apakah syarat menang sudah terpenuhi?
 	check_level_completion()
 
-# [BARU] Fungsi Pengecekan Utama
 func check_level_completion():
-	# Syarat: Koin Penuh DAN Bos Mati
-	if score == total_coins and is_boss_dead:
-		print("SYARAT LENGKAP! KUNCI MUNCUL!")
+	# --- SYARAT KETAT ---
+	# Level Unlocked HANYA JIKA:
+	# 1. Skor koin sama dengan Total Koin (Semua koin diambil)
+	# 2. DAN Boss sudah mati
+	
+	if score >= total_coins and is_boss_dead:
+		print("SYARAT LENGKAP! (Semua Koin + Boss Mati). Level Selesai!")
 		level_unlocked.emit()
 	else:
-		# Opsional: Beri info ke player apa yang kurang
-		if score < total_coins:
-			print("Belum bisa, koin kurang!")
-		if not is_boss_dead:
-			print("Belum bisa, bos masih hidup!")
-
-func update_ui():
-	if score_label:
-		score_label.text = "Coins: " + str(score) + " / " + str(total_coins)
+		# Info Debugging (Cek di Output bawah kalau penasaran kenapa belum menang)
+		print("Belum Selesai. Koin: ", score, "/", total_coins, " | Boss Mati: ", is_boss_dead)
