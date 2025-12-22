@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpihsyfbjsofl"]
+[gd_scene load_steps=5 format=3 uid="uid://cpihsyfbjsofl"]
 
 [ext_resource type="Script" uid="uid://cto3ght3yor71" path="res://scripts/ability_pickup_2.gd" id="1_ygm0d"]
 [ext_resource type="Texture2D" uid="uid://cmfc5pglpmi1g" path="res://asset/Sprites/Chess/Chest_05.png" id="2_ygm0d"]
+[ext_resource type="AudioStream" uid="uid://b73kk5jpdtt3a" path="res://asset/Sounds/powerrr.mp3" id="3_v0pdw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n31x4"]
 size = Vector2(16, 16)
@@ -15,5 +16,10 @@ texture = ExtResource("2_ygm0d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_n31x4")
+
+[node name="Opened" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_v0pdw")
+volume_db = 24.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

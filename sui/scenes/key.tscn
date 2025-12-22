@@ -71,7 +71,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ljj5h")
 }],
-"loop": false,
+"loop": true,
 "name": &"start",
 "speed": 10.0
 }]
@@ -87,7 +87,8 @@ script = ExtResource("1_fttkb")
 scale = Vector2(2.0030508, 2.0030508)
 sprite_frames = SubResource("SpriteFrames_fttkb")
 animation = &"idle"
-autoplay = "start"
+autoplay = "idle"
+frame_progress = 0.8146136
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wy8tx")

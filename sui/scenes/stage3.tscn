@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://snvigo5bkp6i"]
+[gd_scene load_steps=58 format=4 uid="uid://snvigo5bkp6i"]
 
 [ext_resource type="Script" uid="uid://bsl38ixrffr68" path="res://scripts/stage_3.gd" id="1_fty31"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="1_ut35m"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bawk2gjdd4k7h" path="res://scenes/player.tscn" id="3_0ndcg"]
 [ext_resource type="Texture2D" uid="uid://dvhp8pc2c2u0i" path="res://asset/Sprites/Boss/BossDemon/demon_slime_FREE_v1.0_288x160_spritesheet.png" id="3_occcp"]
 [ext_resource type="Texture2D" uid="uid://bq3agsi6gxb4g" path="res://asset/Sprites/Terrain/foreground_/foreground_.png" id="4_ki5ds"]
+[ext_resource type="Script" uid="uid://cmc647en727bl" path="res://scripts/camera_2d.gd" id="5_8kcjd"]
 [ext_resource type="Texture2D" uid="uid://dpavoo52x1xdc" path="res://asset/Sprites/Terrain/midground_/winter_.png" id="5_ro40s"]
 [ext_resource type="Texture2D" uid="uid://c86g506eeimyo" path="res://asset/Sprites/Terrain/midground_/world_tileset.png" id="6_occcp"]
 [ext_resource type="Texture2D" uid="uid://chg74n5ksij3m" path="res://asset/Sprites/Terrain/midground_/summer_.png" id="7_mddvm"]
@@ -4226,6 +4227,7 @@ zoom = Vector2(3, 3)
 limit_bottom = 100
 limit_smoothed = true
 position_smoothing_enabled = true
+script = ExtResource("5_8kcjd")
 
 [node name="TileMap" type="Node2D" parent="."]
 

@@ -20,13 +20,22 @@ func _on_level_unlocked():
 
 func _on_body_entered(body):
 	if body.is_in_group("player"):
-		print("Kunci diambil!")
+		print("Kunci diambil! Level Selesai.")
 		
-		# --- [PENTING] ---
-		# Pancarkan sinyal ini agar Stage 1 mendengarnya
+		# --- [SOLUSI: RESET NYAWA DISINI] ---
+		# Karena ini momen kemenangan, kita reset nyawa di memori Global
+		if Global:
+			# Opsional: Jika kamu punya fungsi reset di Global script
+			if Global.has_method("reset_lives"):
+				Global.reset_lives()
+			else:
+				# Atau set manual ke angka maksimal (misal 3)
+				Global.lives = 3 
+		# ------------------------------------
+		
+		# Pancarkan sinyal agar Stage 1 merespons (Ganti Scene dll)
 		level_won.emit()
-		# -----------------
 		
-		# Matikan kunci biar gak keambil 2x
+		# Matikan kunci
 		$CollisionShape2D.set_deferred("disabled", true)
 		hide()

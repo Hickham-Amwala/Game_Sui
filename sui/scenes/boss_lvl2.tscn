@@ -1,7 +1,10 @@
-[gd_scene load_steps=59 format=3 uid="uid://c4gjyw0iwwq5p"]
+[gd_scene load_steps=62 format=3 uid="uid://c4gjyw0iwwq5p"]
 
 [ext_resource type="Script" uid="uid://b1g1qwcjkx78p" path="res://scripts/boss_lvl_2.gd" id="1_i7mbf"]
 [ext_resource type="Texture2D" uid="uid://cifxxmdk3yjqq" path="res://asset/Sprites/Boss/BossIce/frost_guardian_free_192x128_SpriteSheet.png" id="2_3axp0"]
+[ext_resource type="AudioStream" uid="uid://dvd7l71jxdy2e" path="res://asset/Sounds/boss2_walk.mp3" id="3_3axp0"]
+[ext_resource type="AudioStream" uid="uid://b6dx6fw2wbp6" path="res://asset/Sounds/boss2_attack.mp3" id="4_xdk3b"]
+[ext_resource type="AudioStream" uid="uid://cgmhpo4hft2jj" path="res://asset/Sounds/boss2_die.mp3" id="5_8gu7s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xdk3b"]
 atlas = ExtResource("2_3axp0")
@@ -399,9 +402,9 @@ script = ExtResource("1_i7mbf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p64cc")
-animation = &"attack"
+animation = &"death"
 autoplay = "idle"
-frame = 9
+frame = 15
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -440,6 +443,18 @@ collision_mask = 2
 position = Vector2(0, 8.5)
 shape = SubResource("RectangleShape2D_i7mbf")
 debug_color = Color(0.65447843, 0.9406373, 0.424254, 0.41960785)
+
+[node name="WalkSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_3axp0")
+volume_db = 10.0
+
+[node name="AttackSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_xdk3b")
+volume_db = 5.0
+
+[node name="DieSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_8gu7s")
+pitch_scale = 1.2
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bawk2gjdd4k7h"]
+[gd_scene load_steps=38 format=3 uid="uid://bawk2gjdd4k7h"]
 
 [ext_resource type="Texture2D" uid="uid://pl2vv6l52au5" path="res://asset/Sprites/Player/Slime/stance/mini (1).png" id="1_g2els"]
 [ext_resource type="Script" uid="uid://dlyj4t4x82n4h" path="res://scripts/player.gd" id="1_qlg0r"]
@@ -29,6 +29,9 @@
 [ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="26_ujl30"]
 [ext_resource type="PackedScene" uid="uid://cn206hgrtfuh2" path="res://scenes/pause_menu.tscn" id="28_pf23h"]
 [ext_resource type="PackedScene" uid="uid://cesd5ss66isnl" path="res://scenes/laser_beam.tscn" id="29_dt7fs"]
+[ext_resource type="AudioStream" uid="uid://i0ngy33oepjb" path="res://asset/Sounds/serangan_es.mp3" id="30_wqfne"]
+[ext_resource type="AudioStream" uid="uid://cnkbwncoo75q" path="res://asset/Sounds/tembakan_laser.mp3" id="31_wnwbv"]
+[ext_resource type="AudioStream" uid="uid://s5lef7wqo34n" path="res://asset/Sounds/sui_attack.mp3" id="32_gl8cc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
 animations = [{
@@ -220,6 +223,24 @@ label_settings = SubResource("LabelSettings_dt7fs")
 [node name="LaserBeam" parent="." instance=ExtResource("29_dt7fs")]
 position = Vector2(33, 12.000001)
 scale = Vector2(4.7597094, 4.7597094)
+
+[node name="IceShootSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("30_wqfne")
+bus = &"SFX"
+
+[node name="LaserSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("31_wnwbv")
+volume_db = 10.0
+bus = &"SFX"
+
+[node name="AttackSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("32_gl8cc")
+pitch_scale = 1.29
+bus = &"SFX"
+
+[node name="WalKSfx" type="AudioStreamPlayer2D" parent="."]
+visible = false
+bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_animation_finished"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

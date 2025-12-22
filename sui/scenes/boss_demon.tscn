@@ -1,8 +1,14 @@
-[gd_scene load_steps=80 format=3 uid="uid://bamgebl8smmdb"]
+[gd_scene load_steps=89 format=3 uid="uid://bamgebl8smmdb"]
 
 [ext_resource type="Script" uid="uid://bxij8r3gyb3rp" path="res://scripts/boss_demon.gd" id="1_4ov28"]
 [ext_resource type="Texture2D" uid="uid://dvhp8pc2c2u0i" path="res://asset/Sprites/Boss/BossDemon/demon_slime_FREE_v1.0_288x160_spritesheet.png" id="2_ko1j5"]
 [ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="3_o8o5s"]
+[ext_resource type="Texture2D" uid="uid://cf2xtpl3m5apu" path="res://asset/Sprites/Boss/BossDemon/4afbf3bb-7022-4bae-a3e1-4847b61e899f.png" id="3_ufu7i"]
+[ext_resource type="AudioStream" uid="uid://bbexgh6mg2ad3" path="res://asset/Sounds/auman.mp3" id="4_pwx81"]
+[ext_resource type="AudioStream" uid="uid://b5o2j5wqr5jeu" path="res://asset/Sounds/terbakar.mp3" id="5_l1wx3"]
+[ext_resource type="AudioStream" uid="uid://b1s7buimyll1r" path="res://asset/Sounds/seranagan_pedang.mp3" id="6_l5nvh"]
+[ext_resource type="AudioStream" uid="uid://ctxjpbf4sx1ca" path="res://asset/Sounds/boss3_walk.mp3" id="7_i3h0k"]
+[ext_resource type="AudioStream" uid="uid://c05lbssg3l7uy" path="res://asset/Sounds/boss3_hit.mp3" id="8_olvgq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pwx81"]
 radius = 107.0
@@ -203,6 +209,18 @@ region = Rect2(5760, 640, 288, 160)
 [sub_resource type="AtlasTexture" id="AtlasTexture_asl1q"]
 atlas = ExtResource("2_ko1j5")
 region = Rect2(6048, 640, 288, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7m03"]
+atlas = ExtResource("3_ufu7i")
+region = Rect2(0, 0, 928, 1536)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e6b8"]
+atlas = ExtResource("3_ufu7i")
+region = Rect2(928, 0, 928, 1536)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6wh5"]
+atlas = ExtResource("3_ufu7i")
+region = Rect2(1856, 0, 928, 1536)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nqkrr"]
 atlas = ExtResource("2_ko1j5")
@@ -450,6 +468,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_m7m03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0e6b8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6wh5")
+}],
+"loop": true,
+"name": &"Dizzy",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_nqkrr")
 }, {
 "duration": 1.0,
@@ -561,6 +593,8 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_4ov28")
 animation = &"Death"
 autoplay = "Iddle"
+frame = 21
+frame_progress = 1.0
 flip_h = true
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -601,5 +635,27 @@ ATTACK NOW!"
 label_settings = SubResource("LabelSettings_pwx81")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="RoarSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_pwx81")
+volume_db = 9.6
+bus = &"SFX"
+
+[node name="BurnSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_l1wx3")
+volume_db = 10.0
+bus = &"Music"
+
+[node name="AttackSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_l5nvh")
+volume_db = 8.0
+
+[node name="WalkSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_i3h0k")
+pitch_scale = 2.0
+
+[node name="HitSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_olvgq")
+pitch_scale = 1.5
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_body_contact"]
