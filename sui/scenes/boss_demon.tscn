@@ -1,7 +1,8 @@
-[gd_scene load_steps=76 format=3 uid="uid://bamgebl8smmdb"]
+[gd_scene load_steps=80 format=3 uid="uid://bamgebl8smmdb"]
 
 [ext_resource type="Script" uid="uid://bxij8r3gyb3rp" path="res://scripts/boss_demon.gd" id="1_4ov28"]
 [ext_resource type="Texture2D" uid="uid://dvhp8pc2c2u0i" path="res://asset/Sprites/Boss/BossDemon/demon_slime_FREE_v1.0_288x160_spritesheet.png" id="2_ko1j5"]
+[ext_resource type="FontFile" uid="uid://bkw1sndk0dkgc" path="res://asset/Fonts/PressStart2P-Regular.ttf" id="3_o8o5s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pwx81"]
 radius = 107.0
@@ -531,6 +532,17 @@ height = 240.0
 radius = 71.0
 height = 216.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko1j5"]
+bg_color = Color(0.54509807, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o8o5s"]
+bg_color = Color(0.30969304, 0.703587, 0.25796613, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pwx81"]
+font = ExtResource("3_o8o5s")
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
 [node name="BossDemon" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 0
@@ -567,5 +579,27 @@ position = Vector2(74, 51)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_o8o5s")
 debug_color = Color(0.5414788, 0.5673718, 0, 0.41960785)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 100.0
+offset_top = -46.0
+offset_right = 172.0
+offset_bottom = -41.0
+scale = Vector2(3.2393804, 2.30372)
+theme_override_styles/background = SubResource("StyleBoxFlat_ko1j5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_o8o5s")
+show_percentage = false
+
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = 106.0
+offset_top = -75.0
+offset_right = 602.0
+offset_bottom = -40.0
+scale = Vector2(0.43744606, 0.43744606)
+text = "THE BOSS GOT STUNNED BY METEOR!
+ATTACK NOW!"
+label_settings = SubResource("LabelSettings_pwx81")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_body_contact"]

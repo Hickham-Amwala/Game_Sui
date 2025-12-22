@@ -23,19 +23,38 @@ var has_entered_phase_2 = false
 @onready var sprite = $AnimatedSprite2D
 @onready var stun_timer = $StunTimer
 @onready var attack_range = $AttackRange 
-@onready var body_hitbox = $BodyHitbox
+@onready var body_hitbox = $Hitbox
+@onready var health_bar: ProgressBar = $ProgressBar
+@onready var status_label: Label = $StatusLabel
+
 
 func _ready():
 	stun_timer.one_shot = true
 	
 	if attack_range:
-		attack_range.body_entered.connect(_on_attack_range_entered)
+		# Cek dulu: Kalau BELUM terhubung, baru hubungkan
+		if not attack_range.body_entered.is_connected(_on_attack_range_entered):
+			attack_range.body_entered.connect(_on_attack_range_entered)
+			
 	if body_hitbox:
-		body_hitbox.body_entered.connect(_on_body_contact)
+		# Cek dulu: Kalau BELUM terhubung, baru hubungkan
+		if not body_hitbox.body_entered.is_connected(_on_body_contact):
+			body_hitbox.body_entered.connect(_on_body_contact)
 	
-	sprite.frame_changed.connect(_on_frame_changed)
+	# Sama juga untuk sprite frame changed
+	if not sprite.frame_changed.is_connected(_on_frame_changed):
+		sprite.frame_changed.connect(_on_frame_changed)
+		
+	if health_bar:
+		health_bar.max_value = hp # Set nilai maksimal sesuai variabel hp
+		health_bar.value = hp     # Set isi penuh di awal
+		health_bar.visible = false
+		
+	if status_label:
+		status_label.text = ""
+		status_label.visible = false
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Jika sedang mati, jangan lakukan apa-apa
 	if is_dying:
 		return
@@ -72,7 +91,16 @@ func force_wake_up():
 		return
 		
 	has_entered_phase_2 = true
-	print("DARAH SETENGAH! BOSS BANGUN (PHASE 2)!")
+	
+# --- LOGIKA LABEL BANGUN (LARI) ---
+	if status_label:
+		status_label.visible = true
+		status_label.text = "THE BOSS WAKE UP AGAIN!\nRUNNN!!!"
+		status_label.modulate = Color(1, 0, 0) # Warna Merah (Bahaya!)
+	# ----------------------------------
+	
+	if health_bar:
+		health_bar.visible = false
 	
 	is_stunned = false
 	is_in_cutscene = false 
@@ -159,6 +187,23 @@ func start_stun():
 		is_stunned = true
 		is_attacking = false 
 		
+	# --- LOGIKA LABEL STUN ---
+	if status_label:
+		status_label.visible = true
+	# Cek apakah ini stun fase 1 atau fase 2?
+		if not has_entered_phase_2:
+			# Teks Stun PERTAMA
+			status_label.text = "THE BOSS GOT STUNNED BY METEOR!\nATTACK NOW!"
+			status_label.modulate = Color(0, 1, 0) # Warna Hijau (Opsional)
+		else:
+			# Teks Stun KEDUA (Terakhir)
+			status_label.text = "THIS IS THE LAST HOPE..."
+			status_label.modulate = Color(0.918, 0.433, 0.141, 1.0) # Warna Oranye (Opsional)
+# -------------------------
+		
+	if health_bar:
+		health_bar.visible = true
+		
 		sprite.modulate = Color(0.5, 0.5, 0.5) 
 		sprite.play("Iddle") 
 		print("BOSS PINGSAN! Pukuli sekarang!")
@@ -170,10 +215,13 @@ func take_damage(amount):
 	# 1. Jika Boss sudah mati/sedang proses mati, abaikan hit baru
 	if is_dying:
 		return
-
+		
+	if health_bar:
+		health_bar.value = hp
 	# Boss hanya bisa dilukai saat STUN
 	if is_stunned:
 		hp -= amount
+		
 		print("Boss HP: ", hp)
 		
 		# --- PRIORITAS 1: CEK KEMATIAN DULU ---
@@ -200,7 +248,9 @@ func take_damage(amount):
 
 func die():
 	is_dying = true # Kunci status mati
-	print("Boss Kalah!")
+	
+	if health_bar: health_bar.visible = false
+	if status_label: status_label.visible = false
 	
 	# Matikan semua interaksi
 	set_physics_process(false)

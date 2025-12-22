@@ -82,12 +82,12 @@ size = Vector2(38, 64)
 [node name="Key" type="Area2D"]
 collision_mask = 2
 script = ExtResource("1_fttkb")
-next_level_path = "uid://d3p6ngtywmp4y"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2.0030508, 2.0030508)
 sprite_frames = SubResource("SpriteFrames_fttkb")
 animation = &"idle"
+autoplay = "start"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wy8tx")

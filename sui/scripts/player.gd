@@ -261,5 +261,5 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			body.take_damage(1)
 
 
-func _on_boss_trigger_body_entered(body: Node2D) -> void:
+func _on_boss_trigger_body_entered(_body: Node2D) -> void:
 	pass # Replace with function body.

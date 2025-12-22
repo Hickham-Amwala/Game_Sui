@@ -4,6 +4,7 @@ extends Area2D
 @export var player_node : CharacterBody2D
 @export var falling_object : AnimatedSprite2D
 @export var boss_stop_marker : Marker2D
+@onready var falling_sfx: AudioStreamPlayer = $FallingSfx
 
 # [BARU] Variabel untuk kamera cinematic
 @export var cinematic_camera : Camera2D 
@@ -42,8 +43,12 @@ func start_cinematic_event():
 		falling_object.visible = true
 		falling_object.play("Falling")
 		
-		# [BARU] AKTIFKAN KAMERA BATU!
-		# Kamera akan otomatis pindah fokus ke batu yang sedang jatuh
+		if falling_sfx:
+			print("memutar suara meteor")
+			falling_sfx.play()
+		else:
+			prints("error tidak ada audio")
+			
 		if cinematic_camera:
 			cinematic_camera.enabled = true
 			cinematic_camera.make_current() # Paksa jadi kamera utama
