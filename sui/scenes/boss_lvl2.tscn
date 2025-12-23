@@ -1,10 +1,11 @@
-[gd_scene load_steps=62 format=3 uid="uid://c4gjyw0iwwq5p"]
+[gd_scene load_steps=63 format=3 uid="uid://c4gjyw0iwwq5p"]
 
 [ext_resource type="Script" uid="uid://b1g1qwcjkx78p" path="res://scripts/boss_lvl_2.gd" id="1_i7mbf"]
 [ext_resource type="Texture2D" uid="uid://cifxxmdk3yjqq" path="res://asset/Sprites/Boss/BossIce/frost_guardian_free_192x128_SpriteSheet.png" id="2_3axp0"]
 [ext_resource type="AudioStream" uid="uid://dvd7l71jxdy2e" path="res://asset/Sounds/boss2_walk.mp3" id="3_3axp0"]
 [ext_resource type="AudioStream" uid="uid://b6dx6fw2wbp6" path="res://asset/Sounds/boss2_attack.mp3" id="4_xdk3b"]
 [ext_resource type="AudioStream" uid="uid://cgmhpo4hft2jj" path="res://asset/Sounds/boss2_die.mp3" id="5_8gu7s"]
+[ext_resource type="AudioStream" uid="uid://cq81srbpifjj1" path="res://asset/Sounds/stone-falling-in-water-288559 (mp3cut.net).mp3" id="6_yk4fw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xdk3b"]
 atlas = ExtResource("2_3axp0")
@@ -455,6 +456,10 @@ volume_db = 5.0
 [node name="DieSfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_8gu7s")
 pitch_scale = 1.2
+
+[node name="HitSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_yk4fw")
+volume_db = 24.0
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

@@ -15,6 +15,7 @@ extends CharacterBody2D
 @onready var walk_sfx: AudioStreamPlayer2D = $WalkSfx
 @onready var attack_sfx: AudioStreamPlayer2D = $AttackSfx
 @onready var die_sfx: AudioStreamPlayer2D = $DieSfx
+@onready var hit_sfx: AudioStreamPlayer2D = $HitSfx
 
 # --- PRELOAD SCENES ---
 const DROP_ITEM_SCENE = preload("res://scenes/ability_pickup2.tscn")
@@ -168,6 +169,9 @@ func take_damage(amount):
 	
 	hp -= amount
 	if health_bar: health_bar.value = hp
+	
+	if hit_sfx:
+		hit_sfx.play()
 	
 	# Efek Flash Merah
 	modulate = Color.RED

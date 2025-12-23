@@ -1363,7 +1363,7 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_o1ltp")]
-position = Vector2(1, 7)
+position = Vector2(2505.3, -75.25)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)
@@ -1515,15 +1515,14 @@ scale = Vector2(0.5631628, 0.5631628)
 
 [node name="FadeTransition" parent="." instance=ExtResource("18_ecj4f")]
 z_index = 6
-offset_left = -3288.0
-offset_top = -1586.0
-offset_right = 3217.0
-offset_bottom = 1668.0
+offset_left = -3349.0
+offset_top = -1607.0
+offset_right = 3156.0
+offset_bottom = 1647.0
 
 [node name="music2" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("16_w5a8x")
-volume_db = -50.0
 autoplay = true
 mix_target = 2
 bus = &"Music"
