@@ -44,6 +44,7 @@ var initial_laser_scale: Vector2 = Vector2(1, 1)
 @onready var coin_label: Label = $CanvasLayer/CoinContainer/CoinLabel
 @onready var life_label: Label = $CanvasLayer/LifeContainer/LifeLabel
 @onready var game_manager = %GameManager
+@onready var game_over: Label = $CanvasLayer/GameOver
 
 # Audio (SFX)
 @onready var jump_sfx: AudioStreamPlayer2D = $Jump
@@ -52,12 +53,16 @@ var initial_laser_scale: Vector2 = Vector2(1, 1)
 @onready var laser_sfx: AudioStreamPlayer2D = $LaserSfx
 @onready var attack_sfx: AudioStreamPlayer2D = $AttackSfx
 @onready var walk_sfx: AudioStreamPlayer2D = $WalKSfx 
+@onready var game_over_sfx: AudioStreamPlayer2D = $GameOverSfx
 
 # ==============================================================================
 # 4. FUNGSI UTAMA (INIT & PHYSICS)
 # ==============================================================================
 
 func _ready():
+	if game_over:
+		game_over.visible = false
+	
 	if laser_beam:
 		laser_beam.is_from_player = true
 		laser_beam.visible = false 
@@ -281,7 +286,7 @@ func set_cutscene_mode(active: bool):
 
 func update_ui():
 	if life_label:
-		life_label.text = "x " + str(Global.lives)
+		life_label.text = "x " + str(Global.lives - 1)
 	if coin_label and game_manager:
 		coin_label.text = "x " + str(game_manager.score) + " / " + str(game_manager.total_coins)
 
@@ -304,9 +309,7 @@ func _on_animated_sprite_animation_finished():
 			Engine.time_scale = 1.0
 			get_tree().reload_current_scene()
 		else:
-			Engine.time_scale = 1.0
-			Global.reset_lives()
-			get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+			trigger_game_over_sequence()
 			
 	elif animated_sprite.animation == "attack":
 		is_attacking = false
@@ -319,3 +322,29 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 func _on_boss_trigger_body_entered(_body: Node2D) -> void:
 	pass
+
+func trigger_game_over_sequence():
+	if not game_over:
+		Global.reset_lives()
+		get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+		return
+		
+	game_over.visible = true
+	
+	if game_over_sfx:
+		game_over_sfx.play()
+	
+	var center_pos = get_viewport_rect().size / 2
+	game_over.position = Vector2(center_pos.x - (game_over.size.x / 2), -100)
+	
+	var tween = create_tween()
+	tween.tween_property(game_over, "position:y", center_pos.y - (game_over.size.y / 2), 1.0)\
+		.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+
+	await tween.finished
+
+	await get_tree().create_timer(0.7).timeout
+
+	Engine.time_scale = 1.0
+	Global.reset_lives()
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")

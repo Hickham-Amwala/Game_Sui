@@ -2,13 +2,12 @@ extends Node
 
 # --- DATA PEMAIN ---
 var lives = 3 
-var max_lives = 3
+var max_lives = 5
 
 var has_laser_ability = false
 var has_ice_ability = false
 
 # --- DATA SKOR ---
-# Kamu tadi bilang mau pindahkan skor ke sini biar aman, jadi saya tambahkan sekalian.
 var score = 0 
 
 

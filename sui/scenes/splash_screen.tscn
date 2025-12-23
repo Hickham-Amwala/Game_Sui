@@ -22,4 +22,5 @@ grow_vertical = 2
 stream = ExtResource("1_n4g2v")
 autoplay = true
 expand = true
+bus = &"Music"
 metadata/_edit_use_anchors_ = true

@@ -5,7 +5,7 @@ extends Control
 @onready var skip_label = $SkipLabel
 @onready var animation_player = $AnimationPlayer
 
-var next_scene_path = "res://scenes/main_menu.tscn"
+var next_scene_path = "res://scenes/credits.tscn"
 
 func _ready():
 	MusicController.stop_music()

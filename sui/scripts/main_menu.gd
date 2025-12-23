@@ -15,7 +15,7 @@ var button_type: String = "" # Menyimpan tombol apa yang ditekan
 func _ready():
 	# 1. Setup Awal
 	update_button_visibility()
-	MusicController.play_music() # Pastikan musik nyala
+	MusicController.play_menu_music() # Pastikan musik nyala
 	
 	# 2. Hubungkan Sinyal Animasi (Cukup sekali saja)
 	if not animation_player.animation_finished.is_connected(_on_animation_finished):

@@ -11,7 +11,7 @@ extends Node2D
 # --- REFERENSI NODE ---
 @onready var player: CharacterBody2D = $Player
 @onready var anim_player: AnimationPlayer = $FadeTransition/AnimationPlayer
-@onready var music_2: AudioStreamPlayer2D = $music2
+@onready var music_2: AudioStreamPlayer = $music2
 
 # ==============================================================================
 # 2. FUNGSI UTAMA (INIT)

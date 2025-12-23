@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cq81srbpifjj1"
+path="res://.godot/imported/stone-falling-in-water-288559 (mp3cut.net).mp3-c76083cfa5476d39e6c368c8bb0b71ea.mp3str"
+
+[deps]
+
+source_file="res://asset/Sounds/stone-falling-in-water-288559 (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/stone-falling-in-water-288559 (mp3cut.net).mp3-c76083cfa5476d39e6c368c8bb0b71ea.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

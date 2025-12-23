@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bawk2gjdd4k7h"]
+[gd_scene load_steps=41 format=3 uid="uid://bawk2gjdd4k7h"]
 
 [ext_resource type="Texture2D" uid="uid://pl2vv6l52au5" path="res://asset/Sprites/Player/Slime/stance/mini (1).png" id="1_g2els"]
 [ext_resource type="Script" uid="uid://dlyj4t4x82n4h" path="res://scripts/player.gd" id="1_qlg0r"]
@@ -32,6 +32,8 @@
 [ext_resource type="AudioStream" uid="uid://i0ngy33oepjb" path="res://asset/Sounds/serangan_es.mp3" id="30_wqfne"]
 [ext_resource type="AudioStream" uid="uid://cnkbwncoo75q" path="res://asset/Sounds/tembakan_laser.mp3" id="31_wnwbv"]
 [ext_resource type="AudioStream" uid="uid://s5lef7wqo34n" path="res://asset/Sounds/sui_attack.mp3" id="32_gl8cc"]
+[ext_resource type="AudioStream" uid="uid://cslq6wlh8ce44" path="res://asset/Sounds/various-mushy-impacts-or-wet-splats-70685_p5hYOx1d.mp3" id="33_487ah"]
+[ext_resource type="AudioStream" uid="uid://cg67pp82pmp4q" path="res://asset/Sounds/game-over.mp3" id="34_md1ol"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
 animations = [{
@@ -122,7 +124,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("23_cs1tg")
 }],
-"loop": true,
+"loop": false,
 "name": &"walk",
 "speed": 7.0
 }]
@@ -138,6 +140,13 @@ height = 28.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_dt7fs"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_487ah"]
+paragraph_spacing = 3.0
+font = ExtResource("26_ujl30")
+font_size = 64
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 5
 collision_layer = 2
@@ -147,6 +156,8 @@ script = ExtResource("1_qlg0r")
 sprite_frames = SubResource("SpriteFrames_tuyoq")
 animation = &"walk"
 autoplay = "idle"
+frame = 4
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 shape = SubResource("CircleShape2D_fjrip")
@@ -218,6 +229,23 @@ theme_override_font_sizes/font_size = 32
 text = "0"
 label_settings = SubResource("LabelSettings_dt7fs")
 
+[node name="GameOver" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.0
+offset_top = -32.0
+offset_right = 288.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_487ah")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PauseMenu" parent="." instance=ExtResource("28_pf23h")]
 
 [node name="LaserBeam" parent="." instance=ExtResource("29_dt7fs")]
@@ -239,7 +267,11 @@ pitch_scale = 1.29
 bus = &"SFX"
 
 [node name="WalKSfx" type="AudioStreamPlayer2D" parent="."]
-visible = false
+stream = ExtResource("33_487ah")
+bus = &"SFX"
+
+[node name="GameOverSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("34_md1ol")
 bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_animation_finished"]

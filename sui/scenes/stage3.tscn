@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://snvigo5bkp6i"]
+[gd_scene load_steps=59 format=4 uid="uid://snvigo5bkp6i"]
 
 [ext_resource type="Script" uid="uid://bsl38ixrffr68" path="res://scripts/stage_3.gd" id="1_fty31"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="1_ut35m"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://dry5hylvuosuf" path="res://scenes/fade_transition.tscn" id="18_f80v2"]
 [ext_resource type="AudioStream" uid="uid://b01qm0or0n83l" path="res://asset/Music/stage 4.mp3" id="19_s87j3"]
 [ext_resource type="PackedScene" uid="uid://bne1rwxgt8gi" path="res://scenes/key.tscn" id="20_f80v2"]
+[ext_resource type="PackedScene" uid="uid://bjeneler444fb" path="res://scenes/spike_trap.tscn" id="25_isstm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ovysb"]
 font = ExtResource("2_miulw")
@@ -4220,7 +4221,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_0ndcg")]
-position = Vector2(8, -13)
+position = Vector2(1, -1)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(3, 3)
@@ -4274,9 +4275,8 @@ autoplay = "plat1_2"
 
 [node name="Enemies" type="Node" parent="."]
 
-[node name="BossDemon" parent="Enemies" node_paths=PackedStringArray("game_manager") groups=["enemy"] instance=ExtResource("13_mddvm")]
+[node name="BossDemon" parent="Enemies" groups=["enemy"] instance=ExtResource("13_mddvm")]
 position = Vector2(-130, -61)
-game_manager = NodePath("../../GameManager")
 
 [node name="BossTrigger" type="Area2D" parent="." node_paths=PackedStringArray("boss_node")]
 collision_mask = 3
@@ -4358,13 +4358,6 @@ enabled = false
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
-[node name="FadeTransition" parent="." instance=ExtResource("18_f80v2")]
-z_index = 6
-offset_left = -3288.0
-offset_top = -1586.0
-offset_right = 3217.0
-offset_bottom = 1668.0
-
 [node name="music3" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("19_s87j3")
@@ -4374,6 +4367,43 @@ bus = &"Music"
 [node name="Key" parent="." instance=ExtResource("20_f80v2")]
 position = Vector2(2360, -162)
 scale = Vector2(0.5631628, 0.5631628)
+
+[node name="FadeTransition" parent="." instance=ExtResource("18_f80v2")]
+z_index = 6
+offset_left = -3091.0
+offset_top = -1618.0
+offset_right = 3414.0
+offset_bottom = 1636.0
+
+[node name="Spike" type="Node" parent="."]
+
+[node name="SpikeTrap" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(400, -68)
+
+[node name="SpikeTrap2" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(1328, -52)
+
+[node name="SpikeTrap3" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(1396, -36)
+
+[node name="SpikeTrap4" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(1552, -52)
+
+[node name="SpikeTrap5" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(2001, -84)
+
+[node name="SpikeTrap6" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(2096, -52)
+
+[node name="SpikeTrap7" parent="Spike" instance=ExtResource("25_isstm")]
+z_index = -2
+position = Vector2(2150, -52)
 
 [connection signal="body_entered" from="BossTrigger" to="BossTrigger" method="_on_body_entered"]
 [connection signal="body_entered" from="StunEventTrigger" to="StunEventTrigger" method="_on_body_entered"]
