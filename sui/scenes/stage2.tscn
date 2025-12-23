@@ -1363,7 +1363,7 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_o1ltp")]
-position = Vector2(2505.3, -75.25)
+position = Vector2(1, 5)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(4, 4)

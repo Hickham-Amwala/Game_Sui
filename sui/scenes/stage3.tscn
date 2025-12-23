@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://snvigo5bkp6i"]
+[gd_scene load_steps=61 format=4 uid="uid://snvigo5bkp6i"]
 
 [ext_resource type="Script" uid="uid://bsl38ixrffr68" path="res://scripts/stage_3.gd" id="1_fty31"]
 [ext_resource type="Script" uid="uid://b36obau42ib8k" path="res://scripts/game_manager.gd" id="1_ut35m"]
@@ -17,12 +17,14 @@
 [ext_resource type="Texture2D" uid="uid://bl2uhslmeof5o" path="res://asset/Sprites/Terrain/midground_/dungeon_.png" id="11_ovysb"]
 [ext_resource type="PackedScene" uid="uid://bamgebl8smmdb" path="res://scenes/boss_demon.tscn" id="13_mddvm"]
 [ext_resource type="Script" uid="uid://bolsgab44f7a6" path="res://scripts/boss_trigger.gd" id="13_occcp"]
+[ext_resource type="Texture2D" uid="uid://btbsr3lcb0igh" path="res://asset/Sprites/Terrain/midground_/Spike_B.png" id="13_rfxtn"]
 [ext_resource type="Script" uid="uid://b2sjr3ek0lwf3" path="res://scripts/stun_event_trigger.gd" id="14_mddvm"]
 [ext_resource type="Texture2D" uid="uid://vqoyj7jnejo3" path="res://asset/Sprites/Event/FallingRock/71a00d66-6f5f-49e9-b6f3-9514267e04a5.png" id="15_r6oc3"]
 [ext_resource type="AudioStream" uid="uid://dhhjew8k2o7yx" path="res://asset/Sounds/METEORR.mp3" id="17_s87j3"]
 [ext_resource type="PackedScene" uid="uid://dry5hylvuosuf" path="res://scenes/fade_transition.tscn" id="18_f80v2"]
 [ext_resource type="AudioStream" uid="uid://b01qm0or0n83l" path="res://asset/Music/stage 4.mp3" id="19_s87j3"]
 [ext_resource type="PackedScene" uid="uid://bne1rwxgt8gi" path="res://scenes/key.tscn" id="20_f80v2"]
+[ext_resource type="PackedScene" uid="uid://bjeneler444fb" path="res://scenes/spike_trap.tscn" id="25_isstm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ovysb"]
 font = ExtResource("2_miulw")
@@ -3492,6 +3494,52 @@ texture = ExtResource("11_ovysb")
 17:11/0 = 0
 17:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_isstm"]
+texture = ExtResource("13_rfxtn")
+texture_region_size = Vector2i(16, 23)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+16:0/0 = 0
+17:0/0 = 0
+18:0/0 = 0
+18:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -3.4173155, 8, -3.4173155, 8.093643, 10.251947, -7.5540667, 10.431807)
+19:0/0 = 0
+19:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -3.4173155, 8, -3.4173155, 8.093643, 10.251947, -7.5540667, 10.431807)
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+19:1/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_ovysb"]
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_1ql6a")
@@ -3499,6 +3547,7 @@ sources/1 = SubResource("TileSetAtlasSource_fty31")
 sources/2 = SubResource("TileSetAtlasSource_f80v2")
 sources/3 = SubResource("TileSetAtlasSource_s87j3")
 sources/4 = SubResource("TileSetAtlasSource_8kcjd")
+sources/5 = SubResource("TileSetAtlasSource_isstm")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hjwfi"]
 texture = ExtResource("6_occcp")
@@ -4220,7 +4269,7 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_0ndcg")]
-position = Vector2(8, -13)
+position = Vector2(255, -76)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(3, 3)
@@ -4274,9 +4323,8 @@ autoplay = "plat1_2"
 
 [node name="Enemies" type="Node" parent="."]
 
-[node name="BossDemon" parent="Enemies" node_paths=PackedStringArray("game_manager") groups=["enemy"] instance=ExtResource("13_mddvm")]
+[node name="BossDemon" parent="Enemies" groups=["enemy"] instance=ExtResource("13_mddvm")]
 position = Vector2(-130, -61)
-game_manager = NodePath("../../GameManager")
 
 [node name="BossTrigger" type="Area2D" parent="." node_paths=PackedStringArray("boss_node")]
 collision_mask = 3
@@ -4358,13 +4406,6 @@ enabled = false
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
-[node name="FadeTransition" parent="." instance=ExtResource("18_f80v2")]
-z_index = 6
-offset_left = -3288.0
-offset_top = -1586.0
-offset_right = 3217.0
-offset_bottom = 1668.0
-
 [node name="music3" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("19_s87j3")
@@ -4374,6 +4415,36 @@ bus = &"Music"
 [node name="Key" parent="." instance=ExtResource("20_f80v2")]
 position = Vector2(2360, -162)
 scale = Vector2(0.5631628, 0.5631628)
+
+[node name="FadeTransition" parent="." instance=ExtResource("18_f80v2")]
+z_index = 6
+offset_left = -3091.0
+offset_top = -1618.0
+offset_right = 3414.0
+offset_bottom = 1636.0
+
+[node name="Spike" type="Node" parent="."]
+
+[node name="SpikeTrap" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(400, -72)
+
+[node name="SpikeTrap2" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(1328, -55)
+
+[node name="SpikeTrap3" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(1396, -40)
+
+[node name="SpikeTrap4" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(1552, -55)
+
+[node name="SpikeTrap5" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(2002, -88)
+
+[node name="SpikeTrap6" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(2096, -55)
+
+[node name="SpikeTrap7" parent="Spike" instance=ExtResource("25_isstm")]
+position = Vector2(2150, -56)
 
 [connection signal="body_entered" from="BossTrigger" to="BossTrigger" method="_on_body_entered"]
 [connection signal="body_entered" from="StunEventTrigger" to="StunEventTrigger" method="_on_body_entered"]
